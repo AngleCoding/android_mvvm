@@ -1,0 +1,42 @@
+package com.github.yuang.kt.android_mvvm.base
+
+import android.app.Application
+import com.readystatesoftware.chuck.ChuckInterceptor
+import me.jessyan.autosize.AutoSize
+import me.jessyan.autosize.AutoSizeConfig
+import okhttp3.OkHttpClient
+import rxhttp.RxHttpPlugins.init
+
+abstract class BaseApp : Application() {
+
+    companion object {
+        private var instance: BaseApp? = null
+        fun instance() = instance!!
+    }
+
+    abstract fun baseUrl(): String
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+
+        initAutoSize()
+        initRxHttp()
+    }
+
+    private fun initRxHttp() {
+        val builder = OkHttpClient.Builder()
+        builder.addInterceptor(ChuckInterceptor(applicationContext))
+        init(builder.build()).setDebug(true)
+    }
+
+    private fun initAutoSize() {
+        AutoSize.initCompatMultiProcess(this)
+        AutoSizeConfig.getInstance().apply {
+            isBaseOnWidth = true
+            isCustomFragment = true
+        }
+    }
+
+
+}
