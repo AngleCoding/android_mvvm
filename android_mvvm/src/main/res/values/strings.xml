@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="activity_onCreate"> activity_onCreate</string>
+    <string name="activity_onStart">activity_onStart</string>
+    <string name="activity_onResume">activity_onResume</string>
+    <string name="activity_onPause">"activity_onPause</string>
+    <string name="activity_onStop">activity_onStop</string>
+    <string name="activity_onRestart">activity_onRestart</string>
+    <string name="activity_onDestroy">activity_onDestroy</string>
+
+
+
+</resources>
