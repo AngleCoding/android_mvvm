@@ -8,6 +8,11 @@ import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.ScreenUtils
 import com.gyf.immersionbar.ImmersionBar
 
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
 
 fun AppCompatActivity.initImmersionBar(activity: AppCompatActivity, statusBarView: View) {
     ScreenUtils.setPortrait(activity)

@@ -3,6 +3,12 @@ package com.github.yuang.kt.android_mvvm.utils
 import android.app.Activity
 import java.util.*
 
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
+
 object AppManager {
 
 

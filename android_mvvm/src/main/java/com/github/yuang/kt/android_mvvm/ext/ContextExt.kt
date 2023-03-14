@@ -10,11 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
 
 /**
  * 设置onclick事件
  */
-fun setViewsOnClickListener(listener: View.OnClickListener, vararg views: View){
+fun setViewsOnClickListener(listener: View.OnClickListener, vararg views: View) {
     views.forEach { it.setOnClickListener(listener) }
 }
 
@@ -22,21 +27,21 @@ fun setViewsOnClickListener(listener: View.OnClickListener, vararg views: View){
 /**
  * context显示toast
  */
-fun Context.showToast(tips: String){
+fun Context.showToast(tips: String) {
     ToastUtils.showShort(tips)
 }
 
 /**
  * Fragment显示toast
  */
-fun Fragment.showToast(tips: String){
+fun Fragment.showToast(tips: String) {
     ToastUtils.showShort(tips)
 }
 
 /**
  * 隐藏键盘
  */
-fun Context.hideSoftInput(){
+fun Context.hideSoftInput() {
     val imm: InputMethodManager =
         this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm?.hideSoftInputFromWindow((this as Activity).window.decorView.windowToken, 0)
@@ -45,7 +50,8 @@ fun Context.hideSoftInput(){
 /**
  * 快捷创建viewmodel
  */
-inline fun<reified T: ViewModel> BaseActivity.getViewModel(): T = ViewModelProvider(this).get(T::class.java)
+inline fun <reified T : ViewModel> BaseActivity.getViewModel(): T =
+    ViewModelProvider(this).get(T::class.java)
 
 /**
  * 快捷创建viewmodel

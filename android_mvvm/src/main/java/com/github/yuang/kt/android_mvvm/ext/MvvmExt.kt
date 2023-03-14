@@ -1,7 +1,5 @@
 package com.github.yuang.kt.android_mvvm.ext
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
@@ -16,6 +14,14 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
+
+
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
+
 
 /**
  * 跟下面的方法类似,只是调用形式上有所区别

@@ -1,6 +1,11 @@
 package com.github.yuang.kt.android_mvvm.entity
 
-class BaseData <T>(
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
+class BaseData<T>(
     private var msg: String = "查询成功",
     var result: T,
     var code: String = "200"

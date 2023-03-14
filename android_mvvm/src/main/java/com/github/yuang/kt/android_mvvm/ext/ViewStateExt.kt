@@ -3,6 +3,12 @@ package com.github.yuang.kt.android_mvvm.ext
 import com.github.yuang.kt.android_mvvm.entity.BaseData
 import com.github.yuang.kt.android_mvvm.exception.AppException
 
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
+
 
 /**
  * 处理返回值

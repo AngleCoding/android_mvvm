@@ -20,17 +20,23 @@ import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
 import com.github.yuang.kt.android_mvvm.utils.AppManager
 import me.jessyan.autosize.internal.CustomAdapt
 
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
 abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvider.Factory,
     IBaseUIView {
 
     lateinit var mContext: Context
     private lateinit var baseBinding: ActivityBaseBinding
     lateinit var baseToolbarBinding: BaseViewStubToolbarBinding//标题栏
-    var myBaseViewStatus = BaseViewStatus.SUCCESS
-    lateinit var loadingView: View
-    lateinit var errorView: View
-    var lottieErrorView: LottieAnimationView? = null
-    var lottieLoadingView: LottieAnimationView? = null
+    private var myBaseViewStatus = BaseViewStatus.SUCCESS
+    private lateinit var loadingView: View
+    private lateinit var errorView: View
+    private var lottieErrorView: LottieAnimationView? = null
+    private var lottieLoadingView: LottieAnimationView? = null
+
     abstract fun getBinding(): ViewBinding //绑定布局
 
     abstract fun initView(savedInstanceState: Bundle?) //初始化view
@@ -117,7 +123,9 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         super.onNewIntent(intent)
     }
 
+    //设置监听
     protected open fun setListeners() {
+        //empty implementation
     }
 
     override fun showLoadingLayout() {
@@ -146,9 +154,10 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         lottieErrorView?.setAnimationFromUrl("https://assets10.lottiefiles.com/packages/lf20_vzj1xd0x.json")
         lottieErrorView?.repeatCount = ValueAnimator.INFINITE
         lottieErrorView?.playAnimation()
-        val tv_reload = errorView.findViewById<TextView>(R.id.tv_reload)
-        tv_reload?.setOnClickListener {
-            initViewModel()
+        errorView.findViewById<TextView>(R.id.tv_reload).apply {
+            setOnClickListener {
+                initViewModel()
+            }
         }
 
     }
@@ -167,12 +176,10 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
     override fun setBaseViewStatus(baseViewStatus: BaseViewStatus?) {
-        if (baseViewStatus == BaseViewStatus.LOADING) {
-            showLoadingLayout()
-        } else if (baseViewStatus == BaseViewStatus.SUCCESS) {
-            showSuccessLayout()
-        } else if (baseViewStatus == BaseViewStatus.ERROR) {
-            showErrorLayout("")
+        when (baseViewStatus) {
+            BaseViewStatus.LOADING -> showLoadingLayout()
+            BaseViewStatus.SUCCESS -> showSuccessLayout()
+            else -> showErrorLayout("")
         }
     }
 

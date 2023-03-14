@@ -7,6 +7,11 @@ import me.jessyan.autosize.AutoSizeConfig
 import okhttp3.OkHttpClient
 import rxhttp.RxHttpPlugins.init
 
+/**
+ * @author AnglePenCoding
+ * Created by on 2023/2/17 0017
+ * @website https://github.com/AnglePengCoding
+ */
 abstract class BaseApp : Application() {
 
     companion object {
