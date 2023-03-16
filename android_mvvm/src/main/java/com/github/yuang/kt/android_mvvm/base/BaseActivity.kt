@@ -1,5 +1,6 @@
 package com.github.yuang.kt.android_mvvm.base
 
+import android.Manifest
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
@@ -36,7 +37,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private lateinit var errorView: View
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
-
+    private val PERMISSION_REQUEST = 10086
     abstract fun getBinding(): ViewBinding //绑定布局
 
     abstract fun initView(savedInstanceState: Bundle?) //初始化view
@@ -84,6 +85,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         initData()
         initViewModel()
         setListeners()
+        initPermission()
     }
 
 
@@ -196,4 +198,16 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         AppManager.popActivity(this)
         super.onDestroy()
     }
+
+    private fun initPermission() {
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ), PERMISSION_REQUEST
+        )
+    }
 }
+

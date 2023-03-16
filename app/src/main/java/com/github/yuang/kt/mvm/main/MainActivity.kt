@@ -30,7 +30,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initViewModel() {
-        mainViewModel.login()
     }
 
     override fun setListeners() {

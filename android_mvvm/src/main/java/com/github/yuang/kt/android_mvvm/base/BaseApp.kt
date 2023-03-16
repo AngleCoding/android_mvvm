@@ -2,6 +2,7 @@ package com.github.yuang.kt.android_mvvm.base
 
 import android.app.Application
 import com.readystatesoftware.chuck.ChuckInterceptor
+import com.readystatesoftware.chuck.internal.support.NotificationHelper
 import me.jessyan.autosize.AutoSize
 import me.jessyan.autosize.AutoSizeConfig
 import okhttp3.OkHttpClient
@@ -31,7 +32,10 @@ abstract class BaseApp : Application() {
 
     private fun initRxHttp() {
         val builder = OkHttpClient.Builder()
-        builder.addInterceptor(ChuckInterceptor(applicationContext))
+        val chuckInterceptor = ChuckInterceptor(applicationContext)
+        chuckInterceptor.showNotification(false)
+        builder.addInterceptor(chuckInterceptor)
+
         init(builder.build()).setDebug(true)
     }
 

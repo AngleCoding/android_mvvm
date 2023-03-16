@@ -14,6 +14,7 @@ import com.github.yuang.kt.android_mvvm.ext.launchVmRequest
 class MainViewModel : BaseViewModel() {
 
     private val mainRepository by lazy { MainRepository() }
+
     val refreshData: VmLiveData<LoginBean> = MutableLiveData()
 
     fun login() {

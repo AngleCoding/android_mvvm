@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.github.yuang.kt.android_mvvm.entity.BaseData
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
+import com.github.yuang.kt.android_mvvm.base.BaseFragment
 import com.github.yuang.kt.android_mvvm.base.BaseViewModel
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.google.gson.JsonSyntaxException
@@ -232,188 +233,194 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
  * 第二个参数 是否toast提示错误
  * 第三个参数 成功回调
  */
+//@MainThread
+//inline fun <T> VmLiveData<T>.vmObserverLoading(
+//    fragment: BaseFragment,
+//    tips: Boolean? = true,
+//    crossinline onSuccess: ((T) -> Unit)
+//) {
+//    observe(fragment) {
+//        when (it) {
+//            is VmState.Loading ->{
+//                fragment.showLoadingDialog()
+//            }
+//            is VmState.Success -> {
+//                onSuccess(it.data)
+//                fragment.dismissLoadingDialog()
+//            }
+//            is VmState.Error -> {
+//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
+//                fragment.dismissLoadingDialog()
+//            }
+//        }
+//    }
+//}
+
+/**
+ * 带loading的网络请求
+ * 第一个参数继承自BaseFragment
+ * 第二个参数 是否toast提示错误
+ * 第三个参数 成功回调
+ * 第四个参数 不论成功还是失败都会回调
+ */
+//@MainThread
+//inline fun <T> VmLiveData<T>.vmObserverLoading(
+//    fragment: BaseFragment,
+//    tips: Boolean? = true,
+//    crossinline onSuccess: ((T) -> Unit),
+//    crossinline onComplete: (() -> Unit) = {}
+//) {
+//    observe(fragment) {
+//        when (it) {
+//            is VmState.Loading ->{
+//                fragment.showLoadingDialog()
+//            }
+//            is VmState.Success -> {
+//                onSuccess(it.data)
+//                fragment.dismissLoadingDialog()
+//                onComplete()
+//            }
+//            is VmState.Error -> {
+//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
+//                fragment.dismissLoadingDialog()
+//                onComplete()
+//            }
+//        }
+//    }
+//}
+
+/**
+ * 不带loading的网络请求
+ * 第一个参数继承自BaseFragment
+ * 第二个参数 是否toast提示错误
+ * 第三个参数 成功回调
+ * 第四个参数 不论成功还是失败都会回调
+ */
 @MainThread
-//inline fun <T> VmLiveData<T>.vmObserverLoading(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit)
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//                fragment.showLoadingDialog()
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                fragment.dismissLoadingDialog()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                fragment.dismissLoadingDialog()
-//            }
-//        }
-//    }
-//}
+inline fun <T> VmLiveData<T>.vmObserverDefault(
+    fragment: BaseFragment,
+    tips: Boolean? = true,
+    crossinline onSuccess: ((T) -> Unit)
+) {
+    observe(fragment) {
+        when (it) {
+            is VmState.Loading -> {
+            }
+            is VmState.Success -> {
+                onSuccess(it.result)
+            }
+            is VmState.Error -> {
+                if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+            }
+        }
+    }
+}
 
-        /**
-         * 带loading的网络请求
-         * 第一个参数继承自BaseFragment
-         * 第二个参数 是否toast提示错误
-         * 第三个参数 成功回调
-         * 第四个参数 不论成功还是失败都会回调
-         */
+/**
+ * 不带loading的网络请求
+ * 第一个参数继承自BaseFragment
+ * 第二个参数 是否toast提示错误
+ * 第三个参数 成功回调
+ * 第四个参数 不论成功还是失败都会回调
+ */
+@MainThread
+inline fun <T> VmLiveData<T>.vmObserverDefault(
+    fragment: BaseFragment,
+    tips: Boolean? = true,
+    crossinline onSuccess: ((T) -> Unit),
+    crossinline onComplete: (() -> Unit) = {}
+) {
+    observe(fragment) {
+        when (it) {
+            is VmState.Loading -> {
+            }
+            is VmState.Success -> {
+                onSuccess(it.result)
+                onComplete()
+            }
+            is VmState.Error -> {
+                if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                onComplete()
+            }
+        }
+    }
+}
+
+/**
+ * 主网络请求 适用于页面必须请求网络后才显示的页面,页面的初始状态isShowLoading设置为true
+ * 第一个参数继承自BaseFragment
+ * 第二个参数 是否toast提示错误
+ * 第三个参数 成功回调
+ */
 //@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverLoading(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit),
-//    crossinline onComplete: (() -> Unit) = {}
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//                fragment.showLoadingDialog()
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                fragment.dismissLoadingDialog()
-//                onComplete()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                fragment.dismissLoadingDialog()
-//                onComplete()
-//            }
-//        }
-//    }
-//}
+inline fun <T> VmLiveData<T>.vmObserverMain(
+    fragment: BaseFragment,
+    tips: Boolean? = true,
+    crossinline onSuccess: ((T) -> Unit)
+) {
+    observe(fragment) {
+        when (it) {
+            is VmState.Loading -> {
+                fragment.setBaseViewStatus(BaseViewStatus.LOADING)
+                fragment.showLoadingLayout()
+            }
+            is VmState.Success -> {
+                fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
+                fragment.showSuccessLayout()
+                onSuccess(it.result)
+            }
+            is VmState.Error -> {
+                if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                if (fragment.getBaseViewStatus() != BaseViewStatus.SUCCESS) {
+                    fragment.setBaseViewStatus(BaseViewStatus.ERROR)
+                    fragment.showErrorLayout(it.error.errorMsg)
+                }
+            }
+        }
+    }
+}
 
-        /**
-         * 不带loading的网络请求
-         * 第一个参数继承自BaseFragment
-         * 第二个参数 是否toast提示错误
-         * 第三个参数 成功回调
-         * 第四个参数 不论成功还是失败都会回调
-         */
-//@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverDefault(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit)
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//            }
-//        }
-//    }
-//}
+/**
+ * 主网络请求 适用于页面必须请求网络后才显示的页面,页面的初始状态isShowLoading设置为true
+ * 第一个参数继承自BaseFragment
+ * 第二个参数 是否toast提示错误
+ * 第三个参数 成功回调
+ * 第四个参数 不论成功还是失败都会回调
+ */
+@MainThread
+inline fun <T> VmLiveData<T>.vmObserverMain(
+    fragment: BaseFragment,
+    tips: Boolean? = true,
+    crossinline onSuccess: ((T) -> Unit),
+    crossinline onComplete: (() -> Unit) = {}
+) {
+    observe(fragment) {
+        when (it) {
+            is VmState.Loading -> {
+                fragment.setBaseViewStatus(BaseViewStatus.LOADING)
+                fragment.showLoadingLayout()
+            }
+            is VmState.Success -> {
+                onSuccess(it.result)
+                fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
+                fragment.showSuccessLayout()
+                onComplete()
+            }
+            is VmState.Error -> {
+                if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                if (fragment.getBaseViewStatus() != BaseViewStatus.SUCCESS) {
+                    fragment.setBaseViewStatus(BaseViewStatus.ERROR)
+                    fragment.showErrorLayout(it.error.errorMsg)
+                }
+                onComplete()
+            }
+        }
+    }
+}
 
-        /**
-         * 不带loading的网络请求
-         * 第一个参数继承自BaseFragment
-         * 第二个参数 是否toast提示错误
-         * 第三个参数 成功回调
-         * 第四个参数 不论成功还是失败都会回调
-         */
-//@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverDefault(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit),
-//    crossinline onComplete: (() -> Unit) = {}
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                onComplete()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                onComplete()
-//            }
-//        }
-//    }
-//}
-
-        /**
-         * 主网络请求 适用于页面必须请求网络后才显示的页面,页面的初始状态isShowLoading设置为true
-         * 第一个参数继承自BaseFragment
-         * 第二个参数 是否toast提示错误
-         * 第三个参数 成功回调
-         */
-//@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverMain(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit)
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//                if(fragment.getBaseViewStatus() != EBaseViewStatus.SUCCESS) fragment.showLoadingLayout()
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                fragment.showSuccessLayout()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                if(fragment.getBaseViewStatus() != EBaseViewStatus.SUCCESS){
-//                    fragment.showErrorLayout(it.error.errorMsg)
-//                }
-//            }
-//        }
-//    }
-//}
-
-        /**
-         * 主网络请求 适用于页面必须请求网络后才显示的页面,页面的初始状态isShowLoading设置为true
-         * 第一个参数继承自BaseFragment
-         * 第二个参数 是否toast提示错误
-         * 第三个参数 成功回调
-         * 第四个参数 不论成功还是失败都会回调
-         */
-//@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverMain(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit),
-//    crossinline onComplete: (() -> Unit) = {}
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//                if(fragment.getBaseViewStatus() != EBaseViewStatus.SUCCESS) fragment.showLoadingLayout()
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                fragment.showSuccessLayout()
-//                onComplete()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                if(fragment.getBaseViewStatus() != EBaseViewStatus.SUCCESS){
-//                    fragment.showErrorLayout(it.error.errorMsg)
-//                }
-//                onComplete()
-//            }
-//        }
-//    }
-//}
-
-        /**
-         * BaseViewModel开启协程扩展
-         */
+/**
+ * BaseViewModel开启协程扩展
+ */
 fun <T> BaseViewModel.launchVmRequest(
     request: suspend () -> BaseData<T>,
     viewState: VmLiveData<T>

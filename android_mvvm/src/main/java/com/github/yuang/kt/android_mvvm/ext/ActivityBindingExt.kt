@@ -15,7 +15,6 @@ import com.gyf.immersionbar.ImmersionBar
  */
 
 fun AppCompatActivity.initImmersionBar(activity: AppCompatActivity, statusBarView: View) {
-    ScreenUtils.setPortrait(activity)
     ImmersionBar.with(activity).apply {
         transparentBar()
         statusBarDarkFont(true)

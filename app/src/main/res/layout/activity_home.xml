@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.github.yuang.kt.android_mvvm.widget.tab.SlidingTabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        tl:tl_indicator_width="10dp"
+        tl:tl_tab_padding="5dp"
+        tl:tl_tab_space_equal="true"
+        tl:tl_textSelectColor="#2E81FF"
+        tl:tl_indicator_color="#2E81FF"
+        tl:tl_textUnselectColor="#8CA0CD"
+        tl:tl_textsize="13dp"
+    />
+
+    <com.github.yuang.kt.android_mvvm.widget.NoScrollViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
