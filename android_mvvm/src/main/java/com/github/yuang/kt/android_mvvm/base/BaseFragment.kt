@@ -56,8 +56,6 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         baseFragmentBaseBinding = FragmentBaseBinding.inflate(inflater, container, false)
         baseFragmentBaseBinding.vsLoading.layoutResource = R.layout.base_view_stub_loading
         baseFragmentBaseBinding.vsError.layoutResource = R.layout.base_view_stub_error
-        loadingView = baseFragmentBaseBinding.vsLoading.inflate()
-        errorView = baseFragmentBaseBinding.vsError.inflate()
         baseFragmentBaseBinding.baseMain.apply {
             addView(
                 getBinding().root, ViewGroup.LayoutParams.MATCH_PARENT,
@@ -124,6 +122,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun showLoadingLayout() {
+        loadingView = baseFragmentBaseBinding.vsLoading.inflate()
         lottieLoadingView = loadingView.findViewById(R.id.lottie_loading_view)
         lottieLoadingView?.setAnimationFromUrl("https://assets9.lottiefiles.com/packages/lf20_on5CEa.json")
         lottieLoadingView?.repeatCount = ValueAnimator.INFINITE
