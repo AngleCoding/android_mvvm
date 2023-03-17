@@ -2,8 +2,10 @@ package com.github.yuang.kt.android_mvvm.base
 
 import android.Manifest
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +21,10 @@ import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.github.yuang.kt.android_mvvm.ext.initImmersionBar
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
 import com.github.yuang.kt.android_mvvm.utils.AppManager
+import com.jakewharton.rxbinding4.view.clicks
+import com.yk.loading.LoadingDialog
 import me.jessyan.autosize.internal.CustomAdapt
+import java.util.concurrent.TimeUnit
 
 /**
  * @author AnglePenCoding
@@ -38,6 +43,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
     private val PERMISSION_REQUEST = 10086
+    private var dialog: LoadingDialog? = null
     abstract fun getBinding(): ViewBinding //绑定布局
 
     abstract fun initView(savedInstanceState: Bundle?) //初始化view
@@ -126,8 +132,15 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
     //设置监听
+    @SuppressLint("CheckResult")
     protected open fun setListeners() {
         //empty implementation
+        baseToolbarBinding.back.clicks()
+            .throttleFirst(1000, TimeUnit.MILLISECONDS)
+            .subscribe {
+                finish()
+            }
+        baseToolbarBinding.back.setOnClickListener { finish() }
     }
 
     override fun showLoadingLayout() {
@@ -208,6 +221,30 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ), PERMISSION_REQUEST
         )
+    }
+
+
+    /**
+     * 网络请求加载的中间弹窗
+     */
+    override fun showLoadingDialog() {
+        if (dialog == null) {
+            val loadBuilder = LoadingDialog.Builder(mContext)
+                .setMessage("加载中...") //设置提示文字
+                .setCancelable(false) //按返回键取消
+                .setMessageColor(Color.WHITE) //提示文字颜色
+                .setMessageSize(14) //提示文字字号
+                .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
+                .setCancelOutside(false) //点击空白区域弹消失
+
+            dialog = loadBuilder.create()
+        }
+        dialog?.show()
+    }
+
+
+    override fun dismissLoadingDialog() {
+        dialog?.dismiss()
     }
 }
 

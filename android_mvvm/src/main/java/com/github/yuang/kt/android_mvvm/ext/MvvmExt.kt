@@ -136,15 +136,15 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
     observe(activity) {
         if (it is VmState.Loading) {
             activity.setBaseViewStatus(BaseViewStatus.LOADING)
-//            activity.showLoadingDialog()
+            activity.showLoadingDialog()
         } else if (it is VmState.Success) {
             activity.setBaseViewStatus(BaseViewStatus.SUCCESS)
             onSuccess(it.result)
-//            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog()
         } else if (it is VmState.Error) {
             activity.setBaseViewStatus(BaseViewStatus.ERROR)
             if (null != tips && tips) activity.showToast(it.error.errorMsg)
-//            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog()
         }
     }
 }
@@ -165,14 +165,14 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
 ) {
     observe(activity) {
         if (it is VmState.Loading) {
-//            activity.showLoadingDialog()
+            activity.showLoadingDialog()
         } else if (it is VmState.Success) {
             onSuccess(it.result)
-//            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog()
             onComplete()
         } else if (it is VmState.Error) {
             if (null != tips && tips) activity!!.showToast(it.error.errorMsg)
-//            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog()
             onComplete()
         }
     }
@@ -233,28 +233,28 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
  * 第二个参数 是否toast提示错误
  * 第三个参数 成功回调
  */
-//@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverLoading(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit)
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//                fragment.showLoadingDialog()
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                fragment.dismissLoadingDialog()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                fragment.dismissLoadingDialog()
-//            }
-//        }
-//    }
-//}
+@MainThread
+inline fun <T> VmLiveData<T>.vmObserverLoading(
+    fragment: BaseFragment,
+    tips: Boolean? = true,
+    crossinline onSuccess: ((T) -> Unit)
+) {
+    observe(fragment) {
+        when (it) {
+            is VmState.Loading ->{
+                fragment.showLoadingDialog()
+            }
+            is VmState.Success -> {
+                onSuccess(it.result)
+                fragment.dismissLoadingDialog()
+            }
+            is VmState.Error -> {
+                if(null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                fragment.dismissLoadingDialog()
+            }
+        }
+    }
+}
 
 /**
  * 带loading的网络请求
@@ -263,31 +263,31 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
  * 第三个参数 成功回调
  * 第四个参数 不论成功还是失败都会回调
  */
-//@MainThread
-//inline fun <T> VmLiveData<T>.vmObserverLoading(
-//    fragment: BaseFragment,
-//    tips: Boolean? = true,
-//    crossinline onSuccess: ((T) -> Unit),
-//    crossinline onComplete: (() -> Unit) = {}
-//) {
-//    observe(fragment) {
-//        when (it) {
-//            is VmState.Loading ->{
-//                fragment.showLoadingDialog()
-//            }
-//            is VmState.Success -> {
-//                onSuccess(it.data)
-//                fragment.dismissLoadingDialog()
-//                onComplete()
-//            }
-//            is VmState.Error -> {
-//                if(null != tips && tips) fragment.context!!.showToast(it.error.errorMsg)
-//                fragment.dismissLoadingDialog()
-//                onComplete()
-//            }
-//        }
-//    }
-//}
+@MainThread
+inline fun <T> VmLiveData<T>.vmObserverLoading(
+    fragment: BaseFragment,
+    tips: Boolean? = true,
+    crossinline onSuccess: ((T) -> Unit),
+    crossinline onComplete: (() -> Unit) = {}
+) {
+    observe(fragment) {
+        when (it) {
+            is VmState.Loading ->{
+                fragment.showLoadingDialog()
+            }
+            is VmState.Success -> {
+                onSuccess(it.result)
+                fragment.dismissLoadingDialog()
+                onComplete()
+            }
+            is VmState.Error -> {
+                if(null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                fragment.dismissLoadingDialog()
+                onComplete()
+            }
+        }
+    }
+}
 
 /**
  * 不带loading的网络请求
@@ -323,7 +323,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
  * 第三个参数 成功回调
  * 第四个参数 不论成功还是失败都会回调
  */
-@MainThread
+//@MainThread
 inline fun <T> VmLiveData<T>.vmObserverDefault(
     fragment: BaseFragment,
     tips: Boolean? = true,
@@ -352,7 +352,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
  * 第二个参数 是否toast提示错误
  * 第三个参数 成功回调
  */
-//@MainThread
+@MainThread
 inline fun <T> VmLiveData<T>.vmObserverMain(
     fragment: BaseFragment,
     tips: Boolean? = true,
@@ -371,10 +371,8 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
             }
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
-                if (fragment.getBaseViewStatus() != BaseViewStatus.SUCCESS) {
-                    fragment.setBaseViewStatus(BaseViewStatus.ERROR)
-                    fragment.showErrorLayout(it.error.errorMsg)
-                }
+                fragment.setBaseViewStatus(BaseViewStatus.ERROR)
+                fragment.showErrorLayout(it.error.errorMsg)
             }
         }
     }

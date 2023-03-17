@@ -10,12 +10,24 @@ class HomeViewModel : BaseViewModel() {
 
     private val mHomeRepository by lazy { HomeRepository() }
 
-    private val refreshData: VmLiveData<SearchEntForSamplingBean> = MutableLiveData()
+    val refreshData: VmLiveData<SearchEntForSamplingBean> = MutableLiveData()
 
-    fun searchEntForSampling() {
-        launchVmRequest({
-            mHomeRepository.searchEntForSampling()
-        }, refreshData)
+    var pageNumber: Int = 1
+
+
+    fun searchEntForSamplingF() {
+        pageNumber = 1
+        searchEntForSampling(this.pageNumber)
     }
 
+    fun searchEntForSamplingMore() {
+        this.pageNumber++
+        searchEntForSampling(this.pageNumber)
+    }
+
+    private fun searchEntForSampling(pageNumber: Int) {
+        launchVmRequest({
+            mHomeRepository.searchEntForSampling(pageNumber)
+        }, refreshData)
+    }
 }

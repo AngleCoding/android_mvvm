@@ -20,8 +20,8 @@ class HomeActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         val mTitles: ArrayList<String> = ArrayList()
-        mTitles.add("1")
-        mTitles.add("2")
+        mTitles.add("推荐")
+        mTitles.add("强档")
         mFragmentList.add(HomeFragment.newInstance(""))
         mFragmentList.add(HomeFragment.newInstance(""))
         binding.mViewPager.adapter = FragmentAdapter(supportFragmentManager, mFragmentList)

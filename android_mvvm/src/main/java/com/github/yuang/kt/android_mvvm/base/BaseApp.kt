@@ -1,8 +1,15 @@
 package com.github.yuang.kt.android_mvvm.base
 
 import android.app.Application
+import android.content.Context
+import com.github.yuang.kt.android_mvvm.R
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.readystatesoftware.chuck.internal.support.NotificationHelper
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator
 import me.jessyan.autosize.AutoSize
 import me.jessyan.autosize.AutoSizeConfig
 import okhttp3.OkHttpClient
@@ -18,7 +25,22 @@ abstract class BaseApp : Application() {
     companion object {
         private var instance: BaseApp? = null
         fun instance() = instance!!
+
     }
+
+    init {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { _, layout ->
+            layout.apply {
+                setEnableLoadMore(false)
+                autoRefresh()
+                finishRefresh(2000)
+                setPrimaryColorsId(R.color.font_blue, android.R.color.white)
+            }
+            ClassicsHeader(applicationContext)
+        }
+    }
+
+
 
     abstract fun baseUrl(): String
 

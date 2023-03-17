@@ -24,4 +24,11 @@ interface IBaseUIView {
 
     /** 显示失败布局  */
     fun showErrorLayout(errorMsg: String?)
+
+    /**
+     * 网络请求加载中间弹窗
+     */
+    fun showLoadingDialog()
+
+    fun dismissLoadingDialog()
 }

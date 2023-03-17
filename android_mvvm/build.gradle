@@ -46,7 +46,7 @@ dependencies {
     api 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
     api 'com.blankj:utilcodex:1.31.1'
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
-    api 'com.github.li-xiaojun:XPopup:2.7.5'
+    api 'com.github.li-xiaojun:XPopup:2.9.19'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     api 'androidx.activity:activity-ktx:1.4.0'
@@ -69,4 +69,10 @@ dependencies {
     api 'io.github.lucksiege:pictureselector:v3.10.8'
     api 'io.github.lucksiege:compress:v3.10.8'
     api 'io.github.lucksiege:ucrop:v3.10.8'
+    api "io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.0-beta02"
+    api  'io.github.scwang90:refresh-layout-kernel:2.0.5'
+    api  'io.github.scwang90:refresh-header-classics:2.0.5'
+    api 'com.github.BenShanYang:LoadingDialog:1.0.1'
+    api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+
 }

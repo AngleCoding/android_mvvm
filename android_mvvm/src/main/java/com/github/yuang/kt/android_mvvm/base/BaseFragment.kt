@@ -2,6 +2,7 @@ package com.github.yuang.kt.android_mvvm.base
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.github.yuang.kt.android_mvvm.R
 import com.github.yuang.kt.android_mvvm.databinding.FragmentBaseBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
+import com.yk.loading.LoadingDialog
 
 /**
  * @author AnglePenCoding
@@ -30,7 +32,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     private lateinit var errorView: View
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
-
+    private var dialog: LoadingDialog? = null
 
     abstract fun getBinding(): ViewBinding //绑定布局
 
@@ -74,6 +76,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     //设置监听
     protected open fun setListeners() {
         //empty implementation
+
     }
 
     override fun onResume() {
@@ -106,18 +109,16 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun showSuccessLayout() {
-        lottieLoadingView = loadingView.findViewById(R.id.lottie_loading_view)
-        lottieLoadingView?.setAnimationFromUrl("https://assets9.lottiefiles.com/packages/lf20_on5CEa.json")
-        lottieLoadingView?.repeatCount = ValueAnimator.INFINITE
-        lottieLoadingView?.playAnimation()
-
-        baseFragmentBaseBinding.baseMain.visibility = View.GONE
-        loadingView.visibility = View.VISIBLE
+        baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
+        loadingView.visibility = View.GONE
         errorView.visibility = View.GONE
 
+        //暂停动画防止卡顿
+        lottieLoadingView?.pauseAnimation()
         lottieErrorView?.pauseAnimation()
 
-        myBaseViewStatus = BaseViewStatus.LOADING
+        //更改状态
+        myBaseViewStatus = BaseViewStatus.SUCCESS
     }
 
     override fun showLoadingLayout() {
@@ -154,4 +155,27 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         }
     }
 
+
+    /**
+     * 网络请求加载的中间弹窗
+     */
+    override fun showLoadingDialog() {
+        if (dialog == null) {
+            val loadBuilder = LoadingDialog.Builder(mContext)
+                .setMessage("加载中...") //设置提示文字
+                .setCancelable(false) //按返回键取消
+                .setMessageColor(Color.WHITE) //提示文字颜色
+                .setMessageSize(14) //提示文字字号
+                .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
+                .setCancelOutside(false) //点击空白区域弹消失
+
+            dialog = loadBuilder.create()
+        }
+        dialog?.show()
+    }
+
+
+    override fun dismissLoadingDialog() {
+        dialog?.dismiss()
+    }
 }

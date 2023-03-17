@@ -8,14 +8,15 @@ import rxhttp.wrapper.param.RxHttp
 class HomeRepository {
 
 
-     suspend fun searchEntForSampling(): BaseData<SearchEntForSamplingBean> {
-//        http://120.221.72.37:8095/ent/searchEntForSampling?pageNumber=1&name=&pageSize=10
+    suspend fun searchEntForSampling(pageNumber: Int): BaseData<SearchEntForSamplingBean> {
         val mSearchEntForSamplingBean =
             RxHttp.get("http://120.221.72.37:8095/ent/searchEntForSampling")
                 .setHeader(
                     "token",
-                    "app:2178a819ad3d4ab49c3bedc2a73c76d0:7bc8ebb2e9bf409b9dc1a73ca70c6a89"
+                    "app:2178a819ad3d4ab49c3bedc2a73c76d0:0200ca99534a42aaa909464b8f15e4c9"
                 )
+                .addQuery("pageNumber", pageNumber)
+                .addQuery("pageSize", "10")
                 .toAwait<SearchEntForSamplingBean>()
                 .await()
 

@@ -20,7 +20,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_8"
         android:textStyle="bold"
-        android:text="拼命加载中~"
+        android:text="农安信息 智慧农业"
         android:textColor="@color/font_blue"
         android:textSize="@dimen/dp_16"
         />
