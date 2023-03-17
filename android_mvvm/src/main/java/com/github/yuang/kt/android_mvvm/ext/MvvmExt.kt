@@ -241,7 +241,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
 ) {
     observe(fragment) {
         when (it) {
-            is VmState.Loading ->{
+            is VmState.Loading -> {
                 fragment.showLoadingDialog()
             }
             is VmState.Success -> {
@@ -249,7 +249,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
                 fragment.dismissLoadingDialog()
             }
             is VmState.Error -> {
-                if(null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 fragment.dismissLoadingDialog()
             }
         }
@@ -272,7 +272,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
 ) {
     observe(fragment) {
         when (it) {
-            is VmState.Loading ->{
+            is VmState.Loading -> {
                 fragment.showLoadingDialog()
             }
             is VmState.Success -> {
@@ -281,7 +281,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
                 onComplete()
             }
             is VmState.Error -> {
-                if(null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+                if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 fragment.dismissLoadingDialog()
                 onComplete()
             }
@@ -406,10 +406,8 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
             }
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
-                if (fragment.getBaseViewStatus() != BaseViewStatus.SUCCESS) {
-                    fragment.setBaseViewStatus(BaseViewStatus.ERROR)
-                    fragment.showErrorLayout(it.error.errorMsg)
-                }
+                fragment.setBaseViewStatus(BaseViewStatus.ERROR)
+                fragment.showErrorLayout(it.error.errorMsg)
                 onComplete()
             }
         }

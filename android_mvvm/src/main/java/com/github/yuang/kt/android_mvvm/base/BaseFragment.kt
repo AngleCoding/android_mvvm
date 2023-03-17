@@ -56,16 +56,18 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         baseFragmentBaseBinding = FragmentBaseBinding.inflate(inflater, container, false)
         baseFragmentBaseBinding.vsLoading.layoutResource = R.layout.base_view_stub_loading
         baseFragmentBaseBinding.vsError.layoutResource = R.layout.base_view_stub_error
-        return baseFragmentBaseBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadingView = baseFragmentBaseBinding.vsLoading.inflate()
+        errorView = baseFragmentBaseBinding.vsError.inflate()
         baseFragmentBaseBinding.baseMain.apply {
             addView(
                 getBinding().root, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
+        return baseFragmentBaseBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView(savedInstanceState)
         initData()
         initViewModel()
@@ -122,7 +124,6 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun showLoadingLayout() {
-        loadingView = baseFragmentBaseBinding.vsLoading.inflate()
         lottieLoadingView = loadingView.findViewById(R.id.lottie_loading_view)
         lottieLoadingView?.setAnimationFromUrl("https://assets9.lottiefiles.com/packages/lf20_on5CEa.json")
         lottieLoadingView?.repeatCount = ValueAnimator.INFINITE
@@ -138,7 +139,6 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun showErrorLayout(errorMsg: String?) {
-        errorView = baseFragmentBaseBinding.vsError.inflate()
         baseFragmentBaseBinding.baseMain.visibility = View.GONE
         loadingView.visibility = View.GONE
         errorView.visibility = View.VISIBLE

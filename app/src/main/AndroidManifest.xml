@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Mvm"
         tools:targetApi="31">
         <activity
-            android:name=".main.MainActivity"
+            android:name=".home.HomeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Mvm.NoActionBar">
