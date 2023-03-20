@@ -28,8 +28,8 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     private var isFirstLoad: Boolean = true //是否是第一次加载
     private lateinit var baseFragmentBaseBinding: FragmentBaseBinding
     private var myBaseViewStatus = BaseViewStatus.SUCCESS
-    private lateinit var loadingView: View
-    private lateinit var errorView: View
+    var loadingView: View? = null //加载中布局
+    var errorView: View? = null //错误布局
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
     private var dialog: LoadingDialog? = null
@@ -55,7 +55,9 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         isFirstLoad = true
         baseFragmentBaseBinding = FragmentBaseBinding.inflate(inflater, container, false)
         baseFragmentBaseBinding.vsLoading.layoutResource = R.layout.base_view_stub_loading
+        loadingView = baseFragmentBaseBinding.vsLoading.inflate()
         baseFragmentBaseBinding.vsError.layoutResource = R.layout.base_view_stub_error
+        errorView = baseFragmentBaseBinding.vsError.inflate()
         baseFragmentBaseBinding.baseMain.apply {
             addView(
                 getBinding().root, ViewGroup.LayoutParams.MATCH_PARENT,
@@ -110,8 +112,8 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
 
     override fun showSuccessLayout() {
         baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
-        loadingView.visibility = View.GONE
-        errorView.visibility = View.GONE
+        baseFragmentBaseBinding.vsError.visibility = View.GONE
+        baseFragmentBaseBinding.vsLoading.visibility = View.VISIBLE
 
         //暂停动画防止卡顿
         lottieLoadingView?.pauseAnimation()
@@ -122,15 +124,16 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun showLoadingLayout() {
-        loadingView = baseFragmentBaseBinding.vsLoading.inflate()
-        lottieLoadingView = loadingView.findViewById(R.id.lottie_loading_view)
-        lottieLoadingView?.setAnimationFromUrl("https://assets9.lottiefiles.com/packages/lf20_on5CEa.json")
-        lottieLoadingView?.repeatCount = ValueAnimator.INFINITE
-        lottieLoadingView?.playAnimation()
+        loadingView ?: let {
+            lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
+            lottieLoadingView!!.setAnimation("https://assets3.lottiefiles.com/packages/lf20_usmfx6bp.json")
+            lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
+            lottieLoadingView!!.playAnimation()
+        }
 
         baseFragmentBaseBinding.baseMain.visibility = View.GONE
-        loadingView.visibility = View.VISIBLE
-        errorView.visibility = View.GONE
+        baseFragmentBaseBinding.vsError.visibility = View.GONE
+        baseFragmentBaseBinding.vsLoading.visibility = View.VISIBLE
 
         lottieErrorView?.pauseAnimation()
 
@@ -138,20 +141,24 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun showErrorLayout(errorMsg: String?) {
-        baseFragmentBaseBinding.baseMain.visibility = View.GONE
-        loadingView.visibility = View.GONE
-        errorView.visibility = View.VISIBLE
-        myBaseViewStatus = BaseViewStatus.ERROR
+        errorView?.let {
+            lottieErrorView = errorView!!.findViewById(R.id.lottie_error_view)
+            lottieErrorView!!.setAnimation("lottie/halloween_smoothymon.json")
+            lottieErrorView!!.repeatCount = ValueAnimator.INFINITE
+            lottieErrorView!!.playAnimation()
 
-        lottieErrorView = errorView.findViewById(R.id.lottie_error_view)
-        lottieErrorView?.setAnimationFromUrl("https://assets10.lottiefiles.com/packages/lf20_vzj1xd0x.json")
-        lottieErrorView?.repeatCount = ValueAnimator.INFINITE
-        lottieErrorView?.playAnimation()
-        errorView.findViewById<TextView>(R.id.tv_reload).apply {
-            setOnClickListener {
-                initViewModel()
+            errorView!!.findViewById<TextView>(R.id.tv_reload).apply {
+                setOnClickListener {
+                    initViewModel()
+                }
             }
         }
+        baseFragmentBaseBinding.baseMain.visibility = View.GONE
+        baseFragmentBaseBinding.vsError.visibility = View.VISIBLE
+        baseFragmentBaseBinding.vsLoading.visibility = View.GONE
+
+        lottieLoadingView?.pauseAnimation()
+        myBaseViewStatus = BaseViewStatus.ERROR
     }
 
 
@@ -159,14 +166,19 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
      * 网络请求加载的中间弹窗
      */
     override fun showLoadingDialog() {
+
+        baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
+        baseFragmentBaseBinding.vsError.visibility = View.GONE
+        baseFragmentBaseBinding.vsLoading.visibility = View.GONE
+
         if (dialog == null) {
             val loadBuilder = LoadingDialog.Builder(mContext)
                 .setMessage("加载中...") //设置提示文字
-                .setCancelable(false) //按返回键取消
+                .setCancelable(true) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
                 .setMessageSize(14) //提示文字字号
-                .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
-                .setCancelOutside(false) //点击空白区域弹消失
+                .setBackgroundTransparent(true) //弹窗背景色是透明或半透明
+                .setCancelOutside(true) //点击空白区域弹消失
 
             dialog = loadBuilder.create()
         }
@@ -175,6 +187,9 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
 
 
     override fun dismissLoadingDialog() {
+        baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
+        baseFragmentBaseBinding.vsError.visibility = View.GONE
+        baseFragmentBaseBinding.vsLoading.visibility = View.GONE
         dialog?.dismiss()
     }
 }

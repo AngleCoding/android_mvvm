@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment(), OnRefreshListener {
     override fun initView(savedInstanceState: Bundle?) {
         binding.mSmartRefreshLayout.setRefreshHeader(ClassicsHeader(mContext))
         binding.mSmartRefreshLayout.setOnRefreshListener(this)
-//        initAdapter()
+        initAdapter()
     }
 
     private fun initAdapter() {
@@ -74,12 +74,12 @@ class HomeFragment : BaseFragment(), OnRefreshListener {
 
 
     override fun initData() {
-//        initRefreshData()
+        initRefreshData()
     }
 
     private fun initRefreshData() {
 
-        HomeViewModel.refreshData.vmObserverMain(this,
+        HomeViewModel.refreshData.vmObserverLoading(this,
             onSuccess = {
                 pageNumber = it.result.pager.pageNumber
                 if (it.result.pager.pageNumber == 1) {
@@ -101,11 +101,11 @@ class HomeFragment : BaseFragment(), OnRefreshListener {
     }
 
     override fun initViewModel() {
-//        HomeViewModel.searchEntForSamplingF()
+        HomeViewModel.searchEntForSamplingF()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-//        HomeViewModel.searchEntForSamplingF()
+        HomeViewModel.searchEntForSamplingF()
     }
 
 }

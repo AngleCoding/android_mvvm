@@ -38,8 +38,8 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private lateinit var baseBinding: ActivityBaseBinding
     lateinit var baseToolbarBinding: BaseViewStubToolbarBinding//标题栏
     private var myBaseViewStatus = BaseViewStatus.SUCCESS
-    private lateinit var loadingView: View
-    private lateinit var errorView: View
+    var loadingView: View? = null //加载中布局
+    var errorView: View? = null //错误布局
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
     private val PERMISSION_REQUEST = 10086
@@ -84,8 +84,6 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         setContentView(baseBinding.root)
         initImmersionBar(this, baseBinding.statusBarView)
         initViewStubToolbarBinding()
-        initViewStubLoading()
-        initViewStubError()
         initMainBinding()
         initView(savedInstanceState)
         initData()
@@ -96,6 +94,10 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
 
     private fun initMainBinding() {
+        baseBinding.vsLoading.layoutResource = R.layout.base_view_stub_loading
+        loadingView = baseBinding.vsLoading.inflate()
+        baseBinding.vsError.layoutResource = R.layout.base_view_stub_error
+        errorView = baseBinding.vsError.inflate()
         baseBinding.baseMain.apply {
             addView(
                 getBinding().root,
@@ -108,18 +110,8 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private fun initViewStubToolbarBinding() {
         baseBinding.baseHead.layoutResource = R.layout.base_view_stub_toolbar
         baseToolbarBinding = BaseViewStubToolbarBinding.bind(baseBinding.baseHead.inflate())
-
     }
 
-    private fun initViewStubLoading() {
-        baseBinding.vsLoading.layoutResource = R.layout.base_view_stub_loading
-        loadingView = baseBinding.vsLoading.inflate()
-    }
-
-    private fun initViewStubError() {
-        baseBinding.vsError.layoutResource = R.layout.base_view_stub_error
-        errorView = baseBinding.vsError.inflate()
-    }
 
     override fun getBaseViewStatus(): BaseViewStatus? {
         return myBaseViewStatus
@@ -144,14 +136,16 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
     override fun showLoadingLayout() {
-        lottieLoadingView = loadingView.findViewById(R.id.lottie_loading_view)
-        lottieLoadingView?.setAnimationFromUrl("https://assets9.lottiefiles.com/packages/lf20_on5CEa.json")
-        lottieLoadingView?.repeatCount = ValueAnimator.INFINITE
-        lottieLoadingView?.playAnimation()
+        loadingView ?: let {
+            lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
+            lottieLoadingView!!.setAnimation("https://assets3.lottiefiles.com/packages/lf20_usmfx6bp.json")
+            lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
+            lottieLoadingView!!.playAnimation()
+        }
 
         baseBinding.baseMain.visibility = View.GONE
-        loadingView.visibility = View.VISIBLE
-        errorView.visibility = View.GONE
+        baseBinding.vsError.visibility = View.GONE
+        baseBinding.vsLoading.visibility = View.VISIBLE
 
         lottieErrorView?.pauseAnimation()
 
@@ -160,27 +154,30 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
 
     override fun showErrorLayout(errorMsg: String?) {
-        baseBinding.baseMain.visibility = View.GONE
-        loadingView.visibility = View.GONE
-        errorView.visibility = View.VISIBLE
-        myBaseViewStatus = BaseViewStatus.ERROR
+        errorView?.let {
+            lottieErrorView = errorView!!.findViewById(R.id.lottie_error_view)
+            lottieErrorView!!.setAnimation("lottie/halloween_smoothymon.json")
+            lottieErrorView!!.repeatCount = ValueAnimator.INFINITE
+            lottieErrorView!!.playAnimation()
 
-        lottieErrorView = errorView.findViewById(R.id.lottie_error_view)
-        lottieErrorView?.setAnimationFromUrl("https://assets10.lottiefiles.com/packages/lf20_vzj1xd0x.json")
-        lottieErrorView?.repeatCount = ValueAnimator.INFINITE
-        lottieErrorView?.playAnimation()
-        errorView.findViewById<TextView>(R.id.tv_reload).apply {
-            setOnClickListener {
-                initViewModel()
+            errorView!!.findViewById<TextView>(R.id.tv_reload).apply {
+                setOnClickListener {
+                    initViewModel()
+                }
             }
         }
+        baseBinding.baseMain.visibility = View.GONE
+        baseBinding.vsError.visibility = View.VISIBLE
+        baseBinding.vsLoading.visibility = View.GONE
 
+        lottieLoadingView?.pauseAnimation()
+        myBaseViewStatus = BaseViewStatus.ERROR
     }
 
     override fun showSuccessLayout() {
         baseBinding.baseMain.visibility = View.VISIBLE
-        loadingView.visibility = View.GONE
-        errorView.visibility = View.GONE
+        baseBinding.vsError.visibility = View.GONE
+        baseBinding.vsLoading.visibility = View.GONE
 
         //暂停动画防止卡顿
         lottieLoadingView?.pauseAnimation()

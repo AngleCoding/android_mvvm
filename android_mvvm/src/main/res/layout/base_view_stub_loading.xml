@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_loading"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,9 @@
     android:background="@color/defaultbg">
 
     <com.airbnb.lottie.LottieAnimationView
+        app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_usmfx6bp.json"
         android:id="@+id/lottie_loading_view"
+        app:lottie_autoPlay="true"
         android:layout_width="@dimen/dp_150"
         android:layout_height="@dimen/dp_150"
         />
