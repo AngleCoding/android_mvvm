@@ -135,10 +135,13 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         baseToolbarBinding.back.setOnClickListener { finish() }
     }
 
+
+
+
     override fun showLoadingLayout() {
         loadingView ?: let {
             lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
-            lottieLoadingView!!.setAnimation("https://assets3.lottiefiles.com/packages/lf20_usmfx6bp.json")
+            lottieLoadingView!!.setAnimation("https://assets10.lottiefiles.com/private_files/lf30_stxf8wrq.json")
             lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
             lottieLoadingView!!.playAnimation()
         }

@@ -25,7 +25,6 @@ abstract class BaseApp : Application() {
     companion object {
         private var instance: BaseApp? = null
         fun instance() = instance!!
-
     }
 
     init {

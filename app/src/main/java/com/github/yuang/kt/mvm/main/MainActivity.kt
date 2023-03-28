@@ -1,14 +1,14 @@
 package com.github.yuang.kt.mvm.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
 import androidx.viewbinding.ViewBinding
+import com.github.yuan.picture_take.PictureChooseDialog
+import com.github.yuan.picture_take.utils.GlideApp
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.ext.showToast
 import com.github.yuang.kt.android_mvvm.ext.vmObserverMain
 import com.github.yuang.kt.mvm.databinding.ActivityMainBinding
-import com.yalantis.ucrop.UCropActivity
 
 class MainActivity : BaseActivity() {
     private val mainViewModel by lazy { MainViewModel() }
@@ -20,12 +20,16 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        baseToolbarBinding.toolbarTitle.text="登录"
     }
 
     override fun initData() {
         mainViewModel.refreshData.vmObserverMain(this,
             onSuccess = {
-                showToast(it.result.category.toString())
+                showToast("登录成功")
+                baseToolbarBinding.toolbarTitle.text="GitHub主页"
+                mainBinding.mWebView.loadUrl("https://github.com/AnglePengCoding/android_mvvm")
+                mainBinding.mBtLogin.visibility= GONE
             }
         )
 
@@ -37,7 +41,8 @@ class MainActivity : BaseActivity() {
 
     override fun setListeners() {
         super.setListeners()
-        mainBinding.mBtLogin.setOnClickListener {
+
+        baseToolbarBinding.mLlToolbar.setOnClickListener {
             mainViewModel.login()
         }
     }

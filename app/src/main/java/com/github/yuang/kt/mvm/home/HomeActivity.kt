@@ -19,6 +19,7 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        baseToolbarBinding.toolbarTitle.text= "首页"
         val mTitles: ArrayList<String> = ArrayList()
         mTitles.add("推荐")
         mTitles.add("强档")

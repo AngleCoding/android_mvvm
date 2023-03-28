@@ -19,7 +19,7 @@
         tl:tl_textsize="13dp"
     />
 
-    <com.github.yuang.kt.android_mvvm.widget.NoScrollViewPager
+    <com.github.yuang.kt.android_mvvm.widget.pager.NoScrollViewPager
         android:id="@+id/mViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
