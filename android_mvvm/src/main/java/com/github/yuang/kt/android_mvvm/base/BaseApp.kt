@@ -22,11 +22,6 @@ import rxhttp.RxHttpPlugins.init
  */
 abstract class BaseApp : Application() {
 
-    companion object {
-        private var instance: BaseApp? = null
-        fun instance() = instance!!
-    }
-
     init {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { _, layout ->
             layout.apply {
@@ -45,7 +40,6 @@ abstract class BaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
 
         initAutoSize()
         initRxHttp()
