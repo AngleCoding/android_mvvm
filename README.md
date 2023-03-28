@@ -15,7 +15,7 @@ Kotlin协程开发基础了解：
 
 ```java
 
-  implementation 'com.github.AnglePengCoding:android_picture:Tag'
+    implementation 'com.github.AnglePengCoding:android_mvvm:Tag'
 
 ```
 
