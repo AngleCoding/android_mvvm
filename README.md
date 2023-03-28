@@ -58,7 +58,7 @@
         class MainRepository {
 
             suspend fun login(): BaseData<LoginBean> {
-                val loginBean = RxHttp.get("http://120.221.72.37:8095/" + "version/getLatestOne")
+                val loginBean = RxHttp.get("http://*****/" + "version/getLatestOne")
                         .toAwait<LoginBean>()
                         .await()
                 return BaseData("", loginBean)
