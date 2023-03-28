@@ -7,7 +7,10 @@ plugins {
     id 'maven-publish'
     id 'kotlin-kapt'
 }
+
+
 group = 'com.github.AnglePengCoding'
+
 
 android {
     namespace 'com.github.yuang.kt.android_mvvm'
@@ -36,6 +39,12 @@ android {
     }
     viewBinding {
         enabled = true
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }
 
@@ -83,7 +92,10 @@ afterEvaluate {
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
+                // Applies the component for the release build variant.
                 from components.release
+
+                // You can then customize attributes of the publication as shown below.
                 groupId = 'com.github.yuang.kt.android_mvvm'
                 artifactId = 'android_mvvm'
                 version = 'v1.0.0'
@@ -91,4 +103,3 @@ afterEvaluate {
         }
     }
 }
-
