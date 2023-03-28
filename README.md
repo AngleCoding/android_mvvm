@@ -23,13 +23,13 @@ Kotlin协程开发基础了解：
 <h3>录屏</h3>
 
 <div align=start>
-<img src="https://github.com/AnglePengCoding/android_mvvm/tree/main/GIF/mvvm_home.gif" width="250" height="300" />
-<img src="https://github.com/AnglePengCoding/android_mvvm/tree/main/GIF/mvvm_login.gif" width="250" height="300" />
+<img src="https://github.com/AnglePengCoding/android_mvvm/blob/main/GIF/mvvm_home.gif" width="250" height="300" />
+<img src="https://github.com/AnglePengCoding/android_mvvm/blob/main/GIF/mvvm_login.gif" width="250" height="300" />
 </div>
 
 
 <div align=start>
-<img src="https://github.com/AnglePengCoding/android_picture/blob/main/GIF/mvvm_not_net.gif" width="250" height="300" />
+<img src="https://github.com/AnglePengCoding/android_mvvm/blob/main/GIF/mvvm_not_net.gif" width="250" height="300" />
 </div>
 
 <h3>网络请求</h3>
