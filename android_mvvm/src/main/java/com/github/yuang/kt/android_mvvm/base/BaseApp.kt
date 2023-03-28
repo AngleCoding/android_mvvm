@@ -1,17 +1,10 @@
 package com.github.yuang.kt.android_mvvm.base
 
 import android.app.Application
-import android.content.Context
 import com.github.yuang.kt.android_mvvm.R
-import com.github.yuang.kt.android_mvvm.sharedpreferences.Prefs
-import com.github.yuang.kt.android_mvvm.sharedpreferences.PrefsHelper
 import com.readystatesoftware.chuck.ChuckInterceptor
-import com.readystatesoftware.chuck.internal.support.NotificationHelper
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.scwang.smart.refresh.layout.api.RefreshHeader
-import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator
 import me.jessyan.autosize.AutoSize
 import me.jessyan.autosize.AutoSizeConfig
 import okhttp3.OkHttpClient
@@ -42,7 +35,6 @@ abstract class BaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        PrefsHelper.init(this)
         initAutoSize()
         initRxHttp()
     }
