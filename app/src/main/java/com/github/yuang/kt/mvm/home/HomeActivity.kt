@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.github.yuang.kt.android_mvvm.adapter.FragmentAdapter
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
+import com.github.yuang.kt.android_mvvm.sharedpreferences.LocalDataManager
 import com.github.yuang.kt.mvm.databinding.ActivityHomeBinding
 
 class HomeActivity : BaseActivity() {

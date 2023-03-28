@@ -3,6 +3,8 @@ package com.github.yuang.kt.android_mvvm.base
 import android.app.Application
 import android.content.Context
 import com.github.yuang.kt.android_mvvm.R
+import com.github.yuang.kt.android_mvvm.sharedpreferences.Prefs
+import com.github.yuang.kt.android_mvvm.sharedpreferences.PrefsHelper
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.readystatesoftware.chuck.internal.support.NotificationHelper
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -40,7 +42,7 @@ abstract class BaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+        PrefsHelper.init(this)
         initAutoSize()
         initRxHttp()
     }

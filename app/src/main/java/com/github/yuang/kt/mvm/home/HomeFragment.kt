@@ -7,9 +7,7 @@ import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
 import com.github.yuang.kt.android_mvvm.base.BaseFragment
-import com.github.yuang.kt.android_mvvm.ext.vmObserverDefault
 import com.github.yuang.kt.android_mvvm.ext.vmObserverLoading
-import com.github.yuang.kt.android_mvvm.ext.vmObserverMain
 import com.github.yuang.kt.mvm.adapter.SearchEntForSamplingAdapter
 import com.github.yuang.kt.mvm.databinding.FragmentHomeBinding
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -87,7 +85,6 @@ class HomeFragment : BaseFragment(), OnRefreshListener {
                 } else {
                     adapter.addAll(it.result.list)
                 }
-
                 if (it.result.pager.pageNumber >= it.result.pager.recordCount) {
                     helper?.trailingLoadState = LoadState.NotLoading(true)
                 } else {
