@@ -186,10 +186,20 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
 
-    override fun dismissLoadingDialog() {
-        baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
-        baseFragmentBaseBinding.vsError.visibility = View.GONE
-        baseFragmentBaseBinding.vsLoading.visibility = View.GONE
+    override fun dismissLoadingDialog(baseViewStatus: BaseViewStatus) {
+        when(baseViewStatus){
+            BaseViewStatus.ERROR
+            ->{
+                baseFragmentBaseBinding.baseMain.visibility = View.GONE
+                baseFragmentBaseBinding.vsError.visibility = View.VISIBLE
+                baseFragmentBaseBinding.vsLoading.visibility = View.GONE
+            }
+            else->{
+                baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
+                baseFragmentBaseBinding.vsError.visibility = View.GONE
+                baseFragmentBaseBinding.vsLoading.visibility = View.GONE
+            }
+        }
         dialog?.dismiss()
     }
 }

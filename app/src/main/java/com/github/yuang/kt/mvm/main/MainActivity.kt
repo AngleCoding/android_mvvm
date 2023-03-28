@@ -7,6 +7,7 @@ import com.github.yuan.picture_take.PictureChooseDialog
 import com.github.yuan.picture_take.utils.GlideApp
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.ext.showToast
+import com.github.yuang.kt.android_mvvm.ext.vmObserverLoading
 import com.github.yuang.kt.android_mvvm.ext.vmObserverMain
 import com.github.yuang.kt.mvm.databinding.ActivityMainBinding
 
@@ -24,7 +25,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainViewModel.refreshData.vmObserverMain(this,
+        mainViewModel.refreshData.vmObserverLoading(this,
             onSuccess = {
                 showToast("登录成功")
                 baseToolbarBinding.toolbarTitle.text="GitHub主页"

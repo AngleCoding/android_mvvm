@@ -30,5 +30,5 @@ interface IBaseUIView {
      */
     fun showLoadingDialog()
 
-    fun dismissLoadingDialog()
+    fun dismissLoadingDialog(baseViewStatus: BaseViewStatus)
 }

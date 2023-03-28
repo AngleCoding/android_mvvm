@@ -135,16 +135,14 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
 ) {
     observe(activity) {
         if (it is VmState.Loading) {
-            activity.setBaseViewStatus(BaseViewStatus.LOADING)
             activity.showLoadingDialog()
         } else if (it is VmState.Success) {
-            activity.setBaseViewStatus(BaseViewStatus.SUCCESS)
             onSuccess(it.result)
-            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog(BaseViewStatus.SUCCESS)
         } else if (it is VmState.Error) {
-            activity.setBaseViewStatus(BaseViewStatus.ERROR)
             if (null != tips && tips) activity.showToast(it.error.errorMsg)
-            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog(BaseViewStatus.ERROR)
+            activity.showErrorLayout(it.error.errorMsg)
         }
     }
 }
@@ -168,11 +166,12 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             activity.showLoadingDialog()
         } else if (it is VmState.Success) {
             onSuccess(it.result)
-            activity.dismissLoadingDialog()
+            activity.dismissLoadingDialog(BaseViewStatus.SUCCESS)
             onComplete()
         } else if (it is VmState.Error) {
-            if (null != tips && tips) activity!!.showToast(it.error.errorMsg)
-            activity.dismissLoadingDialog()
+            if (null != tips && tips) activity.showToast(it.error.errorMsg)
+            activity.dismissLoadingDialog(BaseViewStatus.ERROR)
+            activity.showErrorLayout(it.error.errorMsg)
             onComplete()
         }
     }
@@ -246,11 +245,12 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             }
             is VmState.Success -> {
                 onSuccess(it.result)
-                fragment.dismissLoadingDialog()
+                fragment.dismissLoadingDialog(BaseViewStatus.SUCCESS)
             }
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
-                fragment.dismissLoadingDialog()
+                fragment.dismissLoadingDialog(BaseViewStatus.ERROR)
+                fragment.showErrorLayout(it.error.errorMsg)
             }
         }
     }
@@ -277,12 +277,13 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             }
             is VmState.Success -> {
                 onSuccess(it.result)
-                fragment.dismissLoadingDialog()
+                fragment.dismissLoadingDialog(BaseViewStatus.SUCCESS)
                 onComplete()
             }
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
-                fragment.dismissLoadingDialog()
+                fragment.dismissLoadingDialog(BaseViewStatus.ERROR)
+                fragment.showErrorLayout(it.error.errorMsg)
                 onComplete()
             }
         }

@@ -243,7 +243,20 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
 
-    override fun dismissLoadingDialog() {
+    override fun dismissLoadingDialog(baseViewStatus: BaseViewStatus) {
+        when(baseViewStatus){
+            BaseViewStatus.ERROR
+            ->{
+                baseBinding.baseMain.visibility = View.GONE
+                baseBinding.vsError.visibility = View.VISIBLE
+                baseBinding.vsLoading.visibility = View.GONE
+            }
+            else->{
+                baseBinding.baseMain.visibility = View.VISIBLE
+                baseBinding.vsError.visibility = View.GONE
+                baseBinding.vsLoading.visibility = View.GONE
+            }
+        }
         dialog?.dismiss()
     }
 }

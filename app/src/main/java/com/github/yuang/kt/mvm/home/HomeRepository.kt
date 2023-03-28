@@ -10,7 +10,7 @@ class HomeRepository {
 
     suspend fun searchEntForSampling(pageNumber: Int): BaseData<SearchEntForSamplingBean> {
         val mSearchEntForSamplingBean =
-            RxHttp.get("http://******/ent/searchEntForSampling")
+            RxHttp.get("http://****/ent/searchEntForSampling")
                 .setHeader(
                     "token",
                     "app:2178a819ad3d4ab49c3bedc2a73c76d0:0200ca99534a42aaa909464b8f15e4c9"
