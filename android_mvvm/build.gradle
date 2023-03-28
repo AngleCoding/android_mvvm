@@ -81,10 +81,11 @@ afterEvaluate {
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
-                from components.release
-                groupId = 'com.github.yuang.kt.android_mvvm'
+                groupId = 'android_mvvm'
                 artifactId = 'android_mvvm'
                 version = 'v1.0.0'
+
+                from components.release
             }
         }
     }
