@@ -73,19 +73,20 @@ dependencies {
     api  'io.github.scwang90:refresh-header-classics:2.0.5'
     api 'com.github.BenShanYang:LoadingDialog:1.0.1'
     api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
-    api'com.github.AnglePengCoding:android_picture:v2.00'
+    api'com.github.AnglePengCoding:android_picture:v2.0.0'
 }
+
+
 
 afterEvaluate {
     publishing {
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
-                groupId = 'android_mvvm'
+                from components.release
+                groupId = 'com.github.yuang.kt.android_mvvm'
                 artifactId = 'android_mvvm'
                 version = 'v1.0.0'
-
-                from components.release
             }
         }
     }
