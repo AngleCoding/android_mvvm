@@ -169,9 +169,12 @@ Kotlin协程开发基础了解：
 ```
 
 <h3>preferencesDataStore 数据保存</h3>
+
 ```java
+
         DataStoreHelper.putData("bean", "1")
         baseToolbarBinding.toolbarTitle.text = DataStoreHelper.getData("bean","")
+
 ```
 
 ***
