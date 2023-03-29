@@ -1,13 +1,11 @@
 package com.github.yuang.kt.mvm.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View.GONE
 import androidx.viewbinding.ViewBinding
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.ext.showToast
 import com.github.yuang.kt.android_mvvm.ext.vmObserverLoading
-import com.github.yuang.kt.android_mvvm.utils.DataStoreHelper
 import com.github.yuang.kt.mvm.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
