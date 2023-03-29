@@ -46,9 +46,9 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private var dialog: LoadingDialog? = null
     abstract fun getBinding(): ViewBinding //绑定布局
 
-    abstract fun initView(savedInstanceState: Bundle?) //初始化view
+    abstract  fun initView(savedInstanceState: Bundle?) //初始化view
 
-    abstract fun initData() //初始化数据
+    abstract  fun initData() //初始化数据
     abstract fun initViewModel()//数据请求
     open fun getBundleExtras(extras: Bundle?) {} //接收bundle数据
 
@@ -134,8 +134,6 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
             }
         baseToolbarBinding.back.setOnClickListener { finish() }
     }
-
-
 
 
     override fun showLoadingLayout() {
@@ -244,14 +242,14 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
 
     override fun dismissLoadingDialog(baseViewStatus: BaseViewStatus) {
-        when(baseViewStatus){
+        when (baseViewStatus) {
             BaseViewStatus.ERROR
-            ->{
+            -> {
                 baseBinding.baseMain.visibility = View.GONE
                 baseBinding.vsError.visibility = View.VISIBLE
                 baseBinding.vsLoading.visibility = View.GONE
             }
-            else->{
+            else -> {
                 baseBinding.baseMain.visibility = View.VISIBLE
                 baseBinding.vsError.visibility = View.GONE
                 baseBinding.vsLoading.visibility = View.GONE

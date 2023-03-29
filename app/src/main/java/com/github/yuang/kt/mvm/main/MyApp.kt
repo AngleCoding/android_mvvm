@@ -1,6 +1,5 @@
 package com.github.yuang.kt.mvm.main
-
-import com.github.yuang.kt.android_mvvm.base.BaseApp
+import com.github.yuang.kt.android_mvvm.BaseApp
 
 
 /**
@@ -22,6 +21,6 @@ class MyApp : BaseApp() {
     }
 
     override fun baseUrl(): String {
-        return "http://120.221.72.37:8095/"
+        return ""
     }
 }

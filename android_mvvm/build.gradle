@@ -78,6 +78,7 @@ dependencies {
     api 'com.github.BenShanYang:LoadingDialog:1.0.1'
     api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     api'com.github.AnglePengCoding:android_picture:v2.0.0'
+    api("androidx.datastore:datastore-preferences:1.0.0")
 }
 
 

@@ -1,7 +1,8 @@
-package com.github.yuang.kt.android_mvvm.base
+package com.github.yuang.kt.android_mvvm
 
+import android.annotation.SuppressLint
 import android.app.Application
-import com.github.yuang.kt.android_mvvm.R
+import android.content.Context
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -16,7 +17,13 @@ import rxhttp.RxHttpPlugins.init
  * @website https://github.com/AnglePengCoding
  */
 abstract class BaseApp : Application() {
+    companion object{
+        @SuppressLint("StaticFieldLeak")
+        lateinit var instance: BaseApp
 
+        @SuppressLint("StaticFieldLeak")
+        lateinit var mContext: Context
+    }
     init {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { _, layout ->
             layout.apply {
@@ -30,11 +37,12 @@ abstract class BaseApp : Application() {
     }
 
 
-
     abstract fun baseUrl(): String
 
     override fun onCreate() {
         super.onCreate()
+        instance= this
+        mContext= this
         initAutoSize()
         initRxHttp()
     }
