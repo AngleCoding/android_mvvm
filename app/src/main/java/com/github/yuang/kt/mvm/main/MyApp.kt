@@ -20,7 +20,4 @@ class MyApp : BaseApp() {
 
     }
 
-    override fun baseUrl(): String {
-        return ""
-    }
 }

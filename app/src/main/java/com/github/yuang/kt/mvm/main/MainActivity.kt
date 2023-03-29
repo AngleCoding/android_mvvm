@@ -19,8 +19,6 @@ class MainActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         baseToolbarBinding.toolbarTitle.text = "登录"
-        DataStoreHelper.putData("bean", "1")
-        baseToolbarBinding.toolbarTitle.text = DataStoreHelper.getData("bean","")
     }
 
     override fun initData() {

@@ -37,8 +37,6 @@ abstract class BaseApp : Application() {
     }
 
 
-    abstract fun baseUrl(): String
-
     override fun onCreate() {
         super.onCreate()
         instance= this

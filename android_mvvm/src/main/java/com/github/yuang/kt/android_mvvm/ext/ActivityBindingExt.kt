@@ -14,13 +14,15 @@ import com.gyf.immersionbar.ImmersionBar
  * @website https://github.com/AnglePengCoding
  */
 
-fun AppCompatActivity.initImmersionBar(activity: AppCompatActivity, statusBarView: View) {
+fun AppCompatActivity.initImmersionBar(
+    activity: AppCompatActivity,
+    statusBarView: View,
+    isDarkFont: Boolean
+) {
     ImmersionBar.with(activity).apply {
         transparentBar()
-        statusBarDarkFont(true)
+        statusBarDarkFont(isDarkFont)
         statusBarView(statusBarView)
-        navigationBarEnable(true)
-        keyboardEnable(true)
         init()
     }
 }

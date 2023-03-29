@@ -8,8 +8,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
@@ -44,14 +46,60 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private var lottieLoadingView: LottieAnimationView? = null
     private val PERMISSION_REQUEST = 10086
     private var dialog: LoadingDialog? = null
+
+
     abstract fun getBinding(): ViewBinding //绑定布局
 
-    abstract  fun initView(savedInstanceState: Bundle?) //初始化view
+    abstract fun initView(savedInstanceState: Bundle?) //初始化view
 
-    abstract  fun initData() //初始化数据
+    abstract fun initData() //初始化数据
     abstract fun initViewModel()//数据请求
     open fun getBundleExtras(extras: Bundle?) {} //接收bundle数据
 
+
+    /**
+     * 是否需要显示标题栏
+     * 默认不显示
+     */
+    open fun isToolbarVisibility(): Boolean {
+        return false
+    }
+
+    /**
+     * 设置标题栏内容
+     */
+    open fun setTitleName(titleName: String) {
+        baseToolbarBinding.toolbarTitle.text = titleName
+    }
+
+    /**
+     * 设置标题栏右侧图片
+     */
+    open fun setRightIcon(@DrawableRes resId: Int) {
+        baseToolbarBinding.rightIcon.setImageResource(resId)
+    }
+
+    /**
+     * 设置标题栏右边文字内容
+     */
+    open fun setToolbarSubtitle(toolbarSubtitle: String) {
+        baseToolbarBinding.toolbarSubtitle.text = toolbarSubtitle
+    }
+
+    /**
+     * 设置标题栏返回图片
+     */
+    open fun setBackIcon(@DrawableRes resId: Int) {
+        baseToolbarBinding.back.setImageResource(resId)
+    }
+
+    /**
+     * 状态栏字体深色或亮色
+     * 默认深色
+     */
+    open fun isDarkFont(): Boolean {
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +130,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private fun init(savedInstanceState: Bundle?) {
         baseBinding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(baseBinding.root)
-        initImmersionBar(this, baseBinding.statusBarView)
+        initImmersionBar(this, baseBinding.statusBarView, isDarkFont())
         initViewStubToolbarBinding()
         initMainBinding()
         initView(savedInstanceState)
@@ -110,8 +158,15 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private fun initViewStubToolbarBinding() {
         baseBinding.baseHead.layoutResource = R.layout.base_view_stub_toolbar
         baseToolbarBinding = BaseViewStubToolbarBinding.bind(baseBinding.baseHead.inflate())
-    }
 
+        if (!isToolbarVisibility()) {
+            baseToolbarBinding.mLlToolbar.visibility = View.GONE
+            baseBinding.statusBarView.visibility = View.GONE
+        } else {
+            baseToolbarBinding.mLlToolbar.visibility = VISIBLE
+            baseBinding.statusBarView.visibility = VISIBLE
+        }
+    }
 
     override fun getBaseViewStatus(): BaseViewStatus? {
         return myBaseViewStatus
