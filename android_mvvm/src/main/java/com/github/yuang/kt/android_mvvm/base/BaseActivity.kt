@@ -201,9 +201,8 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
         baseBinding.baseMain.visibility = View.GONE
         baseBinding.vsError.visibility = View.GONE
-        baseBinding.vsLoading.visibility = View.VISIBLE
+        baseBinding.vsLoading.visibility = VISIBLE
 
-        lottieErrorView?.pauseAnimation()
 
         myBaseViewStatus = BaseViewStatus.LOADING
     }
@@ -223,7 +222,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
             }
         }
         baseBinding.baseMain.visibility = View.GONE
-        baseBinding.vsError.visibility = View.VISIBLE
+        baseBinding.vsError.visibility = VISIBLE
         baseBinding.vsLoading.visibility = View.GONE
 
         lottieLoadingView?.pauseAnimation()
@@ -231,7 +230,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
     override fun showSuccessLayout() {
-        baseBinding.baseMain.visibility = View.VISIBLE
+        baseBinding.baseMain.visibility = VISIBLE
         baseBinding.vsError.visibility = View.GONE
         baseBinding.vsLoading.visibility = View.GONE
 
@@ -301,11 +300,11 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
             BaseViewStatus.ERROR
             -> {
                 baseBinding.baseMain.visibility = View.GONE
-                baseBinding.vsError.visibility = View.VISIBLE
+                baseBinding.vsError.visibility = VISIBLE
                 baseBinding.vsLoading.visibility = View.GONE
             }
             else -> {
-                baseBinding.baseMain.visibility = View.VISIBLE
+                baseBinding.baseMain.visibility = VISIBLE
                 baseBinding.vsError.visibility = View.GONE
                 baseBinding.vsLoading.visibility = View.GONE
             }
