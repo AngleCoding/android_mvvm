@@ -21,6 +21,7 @@ import com.github.yuang.kt.android_mvvm.databinding.ActivityBaseBinding
 import com.github.yuang.kt.android_mvvm.databinding.BaseViewStubToolbarBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.github.yuang.kt.android_mvvm.ext.initImmersionBar
+import com.github.yuang.kt.android_mvvm.ext.launchVmRequest
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
 import com.github.yuang.kt.android_mvvm.utils.AppManager
 import com.jakewharton.rxbinding4.view.clicks
@@ -46,15 +47,35 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private var lottieLoadingView: LottieAnimationView? = null
     private val PERMISSION_REQUEST = 10086
     private var dialog: LoadingDialog? = null
+    private var lottieLoadingUrl: String =
+        "lottie/lizard-running-lottie-animation.json"//加载动画
+    private var lottieErrorUrl: String =
+        "lottie/halloween_smoothymon.json"//失败动画
 
+    /**
+     * 绑定布局
+     */
+    abstract fun getBinding(): ViewBinding
 
-    abstract fun getBinding(): ViewBinding //绑定布局
+    /**
+     * 初始化view
+     */
+    abstract fun initView(savedInstanceState: Bundle?)
 
-    abstract fun initView(savedInstanceState: Bundle?) //初始化view
+    /**
+     * 初始化数据
+     */
+    abstract fun initData()
 
-    abstract fun initData() //初始化数据
-    abstract fun initViewModel()//数据请求
-    open fun getBundleExtras(extras: Bundle?) {} //接收bundle数据
+    /**
+     * 数据请求
+     */
+    abstract fun initViewModel()
+
+    /**
+     * 接收bundle数据
+     */
+    open fun getBundleExtras(extras: Bundle?) {}
 
 
     /**
@@ -100,6 +121,21 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     open fun isDarkFont(): Boolean {
         return true
     }
+
+    /**
+     * 设置加载动画
+     */
+    open fun setLottieLoadingUrl(lottieLoadingUrl: String) {
+        this.lottieLoadingUrl = lottieLoadingUrl
+    }
+
+    /**
+     * 设置失败动画
+     */
+    open fun setLottieErrorUrl(lottieErrorUrl: String) {
+        this.lottieErrorUrl = lottieErrorUrl
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,11 +228,13 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
 
     override fun showLoadingLayout() {
-        loadingView ?: let {
-            lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
-            lottieLoadingView!!.setAnimation("https://assets10.lottiefiles.com/private_files/lf30_stxf8wrq.json")
-            lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
-            lottieLoadingView!!.playAnimation()
+        runOnUiThread {
+            loadingView?.let {
+                lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
+                lottieLoadingView!!.setAnimation(lottieLoadingUrl)
+                lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
+                lottieLoadingView!!.playAnimation()
+            }
         }
 
         baseBinding.baseMain.visibility = View.GONE
@@ -207,17 +245,18 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         myBaseViewStatus = BaseViewStatus.LOADING
     }
 
-
     override fun showErrorLayout(errorMsg: String?) {
-        errorView?.let {
-            lottieErrorView = errorView!!.findViewById(R.id.lottie_error_view)
-            lottieErrorView!!.setAnimation("lottie/halloween_smoothymon.json")
-            lottieErrorView!!.repeatCount = ValueAnimator.INFINITE
-            lottieErrorView!!.playAnimation()
+        runOnUiThread {
+            errorView?.let {
+                lottieErrorView = errorView!!.findViewById(R.id.lottie_error_view)
+                lottieErrorView!!.setAnimation(lottieErrorUrl)
+                lottieErrorView!!.repeatCount = ValueAnimator.INFINITE
+                lottieErrorView!!.playAnimation()
 
-            errorView!!.findViewById<TextView>(R.id.tv_reload).apply {
-                setOnClickListener {
-                    initViewModel()
+                errorView!!.findViewById<TextView>(R.id.tv_reload).apply {
+                    setOnClickListener {
+                        initViewModel()
+                    }
                 }
             }
         }

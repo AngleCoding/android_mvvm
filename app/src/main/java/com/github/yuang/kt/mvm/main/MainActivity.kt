@@ -6,6 +6,7 @@ import androidx.viewbinding.ViewBinding
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.ext.showToast
 import com.github.yuang.kt.android_mvvm.ext.vmObserverLoading
+import com.github.yuang.kt.android_mvvm.ext.vmObserverMain
 import com.github.yuang.kt.mvm.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
@@ -22,12 +23,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainViewModel.refreshData.vmObserverLoading(this,
+        mainViewModel.refreshData.vmObserverMain(this,
             onSuccess = {
-                showToast("登录成功")
-                baseToolbarBinding.toolbarTitle.text = "GitHub主页"
-                mainBinding.mWebView.loadUrl("https://github.com/AnglePengCoding/android_mvvm")
-                mainBinding.mBtLogin.visibility = GONE
 
             }
         )
@@ -40,10 +37,10 @@ class MainActivity : BaseActivity() {
 
     override fun setListeners() {
         super.setListeners()
-
-        baseToolbarBinding.mLlToolbar.setOnClickListener {
-//            mainViewModel.login()
+        mainBinding.mBtLogin.setOnClickListener {
+            mainViewModel.login()
         }
+
     }
 
 }
