@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
 import com.github.yuang.kt.android_mvvm.base.BaseFragment
 import com.github.yuang.kt.android_mvvm.ext.vmObserverLoading
+import com.github.yuang.kt.android_mvvm.ext.vmObserverMain
 import com.github.yuang.kt.mvm.adapter.SearchEntForSamplingAdapter
 import com.github.yuang.kt.mvm.databinding.FragmentHomeBinding
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -77,7 +78,7 @@ class HomeFragment : BaseFragment(), OnRefreshListener {
 
     private fun initRefreshData() {
 
-        HomeViewModel.refreshData.vmObserverLoading(this,
+        HomeViewModel.refreshData.vmObserverMain(this,
             onSuccess = {
                 pageNumber = it.result.pager.pageNumber
                 if (it.result.pager.pageNumber == 1) {

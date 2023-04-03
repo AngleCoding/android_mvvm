@@ -33,6 +33,25 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
     private var dialog: LoadingDialog? = null
+    private var lottieLoadingUrl: String =
+        "lottie/lizard-running-lottie-animation.json"//加载动画
+    private var lottieErrorUrl: String =
+        "lottie/halloween_smoothymon.json"//失败动画
+
+
+    /**
+     * 设置加载动画
+     */
+    open fun setLottieLoadingUrl(lottieLoadingUrl: String) {
+        this.lottieLoadingUrl = lottieLoadingUrl
+    }
+
+    /**
+     * 设置失败动画
+     */
+    open fun setLottieErrorUrl(lottieErrorUrl: String) {
+        this.lottieErrorUrl = lottieErrorUrl
+    }
 
     abstract fun getBinding(): ViewBinding //绑定布局
 
@@ -64,6 +83,11 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
+
+        baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
+        baseFragmentBaseBinding.vsError.visibility = View.GONE
+        baseFragmentBaseBinding.vsLoading.visibility = View.GONE
+
         return baseFragmentBaseBinding.root
     }
 
@@ -113,7 +137,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     override fun showSuccessLayout() {
         baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
         baseFragmentBaseBinding.vsError.visibility = View.GONE
-        baseFragmentBaseBinding.vsLoading.visibility = View.VISIBLE
+        baseFragmentBaseBinding.vsLoading.visibility = View.GONE
 
         //暂停动画防止卡顿
         lottieLoadingView?.pauseAnimation()
@@ -126,7 +150,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     override fun showLoadingLayout() {
         loadingView ?: let {
             lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
-            lottieLoadingView!!.setAnimation("https://assets10.lottiefiles.com/private_files/lf30_stxf8wrq.json")
+            lottieLoadingView!!.setAnimation(lottieLoadingUrl)
             lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
             lottieLoadingView!!.playAnimation()
         }
@@ -143,7 +167,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     override fun showErrorLayout(errorMsg: String?) {
         errorView?.let {
             lottieErrorView = errorView!!.findViewById(R.id.lottie_error_view)
-            lottieErrorView!!.setAnimation("lottie/halloween_smoothymon.json")
+            lottieErrorView!!.setAnimation(lottieErrorUrl)
             lottieErrorView!!.repeatCount = ValueAnimator.INFINITE
             lottieErrorView!!.playAnimation()
 
@@ -166,7 +190,6 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
      * 网络请求加载的中间弹窗
      */
     override fun showLoadingDialog() {
-
         baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
         baseFragmentBaseBinding.vsError.visibility = View.GONE
         baseFragmentBaseBinding.vsLoading.visibility = View.GONE
