@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/defaultbg">
+    android:background="@android:color/transparent">
 
     <com.airbnb.lottie.LottieAnimationView
         app:lottie_fileName="lottie/lizard-running-lottie-animation.json"
