@@ -21,7 +21,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_error_view"
         android:layout_width="@dimen/dp_150"
-        app:lottie_fileName="lottie/halloween_smoothymon.json"
+        app:lottie_fileName="lottie/error-404.json"
         app:lottie_imageAssetsFolder="lottie/images/"
         android:layout_height="@dimen/dp_150"
         />

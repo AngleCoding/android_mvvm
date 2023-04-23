@@ -34,9 +34,9 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     private var lottieLoadingView: LottieAnimationView? = null
     private var dialog: LoadingDialog? = null
     private var lottieLoadingUrl: String =
-        "lottie/lizard-running-lottie-animation.json"//加载动画
+        "lottie/loading-animation-blue.json"//加载动画
     private var lottieErrorUrl: String =
-        "lottie/halloween_smoothymon.json"//失败动画
+        "lottie/error-404.json"//失败动画
 
 
     /**
