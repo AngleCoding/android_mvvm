@@ -202,6 +202,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
             baseToolbarBinding.mLlToolbar.visibility = VISIBLE
             baseBinding.statusBarView.visibility = VISIBLE
         }
+        baseToolbarBinding.toolbarTitle.isSelected = true
     }
 
     override fun getBaseViewStatus(): BaseViewStatus? {

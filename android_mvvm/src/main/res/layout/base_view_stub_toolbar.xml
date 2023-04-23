@@ -20,15 +20,15 @@
             android:scaleType="centerInside"
             android:src="@mipmap/back" />
 
-        <TextView
-            android:singleLine="true"
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+        <com.github.yuang.kt.android_mvvm.widget.MarqueeTextView
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:id="@+id/toolbar_title"
+            android:layout_width="@dimen/dp_162"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:marqueeRepeatLimit="-1"
             android:gravity="center"
             android:text="标题栏"

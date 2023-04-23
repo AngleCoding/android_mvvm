@@ -16,18 +16,22 @@ class CameraActivity : BaseActivity(), GridImageAdapter.AddPicClickListener {
 
     private lateinit var cameraBinding: ActivityCameraBinding
     private lateinit var adapter: GridImageAdapter
-
     override fun getBinding(): ViewBinding {
         cameraBinding = ActivityCameraBinding.inflate(layoutInflater)
         return cameraBinding
     }
 
+    override fun isToolbarVisibility(): Boolean {
+        return true
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
-        baseToolbarBinding.toolbarTitle.text = "多图上传"
+        baseToolbarBinding.toolbarTitle.text = "多图多图上传多图上传多图上传上传"
         adapter = GridImageAdapter(mContext)
         adapter.setAddPicClickListener(this)
         cameraBinding.mRecyclerView.layoutManager = FullyGridLayoutManager(mContext, 4)
         cameraBinding.mRecyclerView.adapter = adapter
+
     }
 
     override fun initData() {
