@@ -16,7 +16,7 @@ import rxhttp.RxHttpPlugins.init
  * Created by on 2023/2/17 0017
  * @website https://github.com/AnglePengCoding
  */
-abstract class BaseApp : BaseHotPatchApp() {
+abstract class BaseApp : Application() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var instance: BaseApp
@@ -41,7 +41,7 @@ abstract class BaseApp : BaseHotPatchApp() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        mContext = application.applicationContext
+        mContext = this
         initAutoSize()
         initRxHttp()
     }

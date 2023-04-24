@@ -11,7 +11,6 @@ class MyApp : BaseApp() {
 
     override fun onCreate() {
         super.onCreate()
-
     }
 
 }

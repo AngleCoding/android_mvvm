@@ -86,10 +86,7 @@ dependencies {
     api'com.github.AnglePengCoding:android_picture:v2.0.1'
     api("androidx.datastore:datastore-preferences:1.0.0")
     api 'com.contrarywind:Android-PickerView:4.1.9'
-    api 'com.tencent.tmf.android:hotpatchcore:+'
-    api 'com.tencent.tmf.android:hotpatch:+'
-
-
+    api 'com.github.azhon:AppUpdate:4.2.0'
 }
 
 
