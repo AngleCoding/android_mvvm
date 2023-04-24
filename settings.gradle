@@ -22,6 +22,9 @@ dependencyResolutionManagement {
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
         maven { url "https://jitpack.io" }
+        maven {
+            url 'https://tmf-work-maven.pkg.coding.net/repository/tmf/android/'
+        }
     }
 }
 rootProject.name = "mvm"

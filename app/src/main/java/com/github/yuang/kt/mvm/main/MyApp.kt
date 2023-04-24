@@ -8,15 +8,9 @@ import com.github.yuang.kt.android_mvvm.BaseApp
  * @website https://github.com/AnglePengCoding
  */
 class MyApp : BaseApp() {
-    companion object {
-        private var instance: MyApp? = null
-        fun instance() = instance!!
-    }
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-
 
     }
 

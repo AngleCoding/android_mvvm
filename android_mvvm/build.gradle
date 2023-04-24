@@ -16,6 +16,12 @@ android {
     namespace 'com.github.yuang.kt.android_mvvm'
     compileSdk 33
 
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+    }
+
     defaultConfig {
         minSdk 24
         targetSdk 33
@@ -80,6 +86,10 @@ dependencies {
     api'com.github.AnglePengCoding:android_picture:v2.0.1'
     api("androidx.datastore:datastore-preferences:1.0.0")
     api 'com.contrarywind:Android-PickerView:4.1.9'
+    api 'com.tencent.tmf.android:hotpatchcore:+'
+    api 'com.tencent.tmf.android:hotpatch:+'
+
+
 }
 
 

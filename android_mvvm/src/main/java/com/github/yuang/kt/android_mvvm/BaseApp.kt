@@ -16,14 +16,15 @@ import rxhttp.RxHttpPlugins.init
  * Created by on 2023/2/17 0017
  * @website https://github.com/AnglePengCoding
  */
-abstract class BaseApp : Application() {
-    companion object{
+abstract class BaseApp : BaseHotPatchApp() {
+    companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var instance: BaseApp
 
         @SuppressLint("StaticFieldLeak")
         lateinit var mContext: Context
     }
+
     init {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { _, layout ->
             layout.apply {
@@ -32,22 +33,22 @@ abstract class BaseApp : Application() {
                 finishRefresh(2000)
                 setPrimaryColorsId(R.color.font_blue, android.R.color.white)
             }
-            ClassicsHeader(applicationContext)
+            ClassicsHeader(mContext)
         }
     }
 
 
     override fun onCreate() {
         super.onCreate()
-        instance= this
-        mContext= this
+        instance = this
+        mContext = application.applicationContext
         initAutoSize()
         initRxHttp()
     }
 
     private fun initRxHttp() {
         val builder = OkHttpClient.Builder()
-        val chuckInterceptor = ChuckInterceptor(applicationContext)
+        val chuckInterceptor = ChuckInterceptor(mContext)
         chuckInterceptor.showNotification(false)
         builder.addInterceptor(chuckInterceptor)
 
@@ -55,7 +56,7 @@ abstract class BaseApp : Application() {
     }
 
     private fun initAutoSize() {
-        AutoSize.initCompatMultiProcess(this)
+        AutoSize.initCompatMultiProcess(mContext)
         AutoSizeConfig.getInstance().apply {
             isBaseOnWidth = true
             isCustomFragment = true
