@@ -8,7 +8,6 @@ package com.github.yuang.kt.android_mvvm.entity
 open class BaseData<T>(
     private var msg: String = "查询成功",
     var result: T,
-    val ext: String,
     var code: String = "200"
 ) {
 
