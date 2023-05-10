@@ -20,6 +20,6 @@ class HomeRepository {
                 .toAwait<SearchEntForSamplingBean>()
                 .await()
 
-        return BaseData("", mSearchEntForSamplingBean)
+        return BaseData(mSearchEntForSamplingBean.msg, mSearchEntForSamplingBean,"",mSearchEntForSamplingBean.code)
     }
 }

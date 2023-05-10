@@ -6,9 +6,10 @@ package com.github.yuang.kt.android_mvvm.entity
  * @website https://github.com/AnglePengCoding
  */
 open class BaseData<T>(
-    private var msg: String = "查询成功",
-    var result: T,
-    var code: String = "200"
+    private val msg: String,
+    val result: T,
+    val ext: String,
+    val code: String
 ) {
 
     /**

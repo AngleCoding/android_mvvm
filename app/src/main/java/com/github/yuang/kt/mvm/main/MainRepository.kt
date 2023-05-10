@@ -20,7 +20,7 @@ class MainRepository {
             .setBody(body)
             .toAwait<LoginBean>()
             .await()
-        return BaseData("", loginBean,"")
+        return BaseData("", loginBean,"","")
     }
 
 }
