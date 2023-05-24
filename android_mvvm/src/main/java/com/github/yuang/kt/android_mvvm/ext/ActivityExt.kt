@@ -1,11 +1,13 @@
 package com.github.yuang.kt.android_mvvm.ext
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
-import com.blankj.utilcode.util.ScreenUtils
+import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 
 /**
@@ -23,6 +25,7 @@ fun AppCompatActivity.initImmersionBar(
         transparentBar()
         statusBarDarkFont(isDarkFont)
         statusBarView(statusBarView)
+        hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
         init()
     }
 }
@@ -36,6 +39,27 @@ fun AppCompatActivity.dismissKeyBoard(view: View) {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager?
     imm?.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+
+/**
+ * 跳转页面
+ *
+ */
+fun AppCompatActivity.startActvity(packageContext: Context, cls: Class<Any>) {
+    val intent = Intent(packageContext, cls::class.java)
+    startActivity(intent)
+}
+
+/**
+ * 跳转页面
+ *携带数据
+ */
+fun AppCompatActivity.startActvity(packageContext: Context, cls: Class<Any>, bundle: Bundle) {
+    val intent = Intent(packageContext, cls::class.java)
+    intent.putExtras(bundle)
+    startActivity(intent)
+}
+
 
 
 /**

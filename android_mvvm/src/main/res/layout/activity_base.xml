@@ -29,7 +29,6 @@
         android:id="@+id/vs_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/base_head"
         android:layout="@layout/base_view_stub_loading"
         />
 
@@ -37,7 +36,6 @@
         android:id="@+id/vs_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/base_head"
         android:layout="@layout/base_view_stub_error"
         />
 

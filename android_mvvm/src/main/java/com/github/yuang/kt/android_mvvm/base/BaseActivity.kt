@@ -45,6 +45,8 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     var errorView: View? = null //错误布局
     private var lottieErrorView: LottieAnimationView? = null
     private var lottieLoadingView: LottieAnimationView? = null
+    private var loadingMsgView: TextView? = null
+    private var loadingMsg: String = "加载中..."
     private val PERMISSION_REQUEST = 10086
     private var dialog: LoadingDialog? = null
     private var lottieLoadingUrl: String =
@@ -136,6 +138,12 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         this.lottieErrorUrl = lottieErrorUrl
     }
 
+    /**
+     * 设置加载显示的文字
+     */
+    open fun setLoadingMsg(msg: String) {
+        loadingMsg = msg
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,6 +188,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     private fun initMainBinding() {
         baseBinding.vsLoading.layoutResource = R.layout.base_view_stub_loading
         loadingView = baseBinding.vsLoading.inflate()
+
         baseBinding.vsError.layoutResource = R.layout.base_view_stub_error
         errorView = baseBinding.vsError.inflate()
         baseBinding.baseMain.apply {
@@ -235,6 +244,8 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
                 lottieLoadingView!!.setAnimation(lottieLoadingUrl)
                 lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
                 lottieLoadingView!!.playAnimation()
+                loadingMsgView = loadingView!!.findViewById(R.id.tv_baseloadingmsg)
+                loadingMsgView?.text = loadingMsg
             }
         }
 
