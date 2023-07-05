@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Mvm"
         tools:targetApi="31">
         <activity
-            android:name=".camera.CameraActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Mvm.NoActionBar">
             <intent-filter>
@@ -29,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.github.yuang.kt.mvm.login.LoginActivity" />
     </application>
 
 </manifest>

@@ -11,16 +11,16 @@ import rxhttp.wrapper.param.RxHttp
 class MainRepository {
 
     suspend fun login(): BaseData<LoginBean> {
-        val map = mapOf("account" to "111", "password" to "22", "type" to "app")
+        val map = mapOf("account" to "gzqnld", "password" to "Aa12345", "type" to "app")
         val body = RequestBody.create(
             "application/json; charset=utf-8".toMediaTypeOrNull(),
             map.toJsonString()
         )
-        val loginBean = RxHttp.postBody("https://publicres.creditmoa.com/login")
+        val loginBean = RxHttp.postBody("https://")
             .setBody(body)
             .toAwait<LoginBean>()
             .await()
-        return BaseData("", loginBean,"","")
+        return BaseData("", loginBean, "200")
     }
 
 }

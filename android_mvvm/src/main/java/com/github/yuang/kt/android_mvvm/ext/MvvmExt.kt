@@ -8,8 +8,12 @@ import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.base.BaseFragment
 import com.github.yuang.kt.android_mvvm.base.BaseViewModel
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
+import com.github.yuang.kt.android_mvvm.exception.AppException
 import com.google.gson.JsonSyntaxException
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
+import rxhttp.wrapper.exception.HttpStatusCodeException
+import rxhttp.wrapper.exception.ParseException
 import java.net.ConnectException
 import java.net.SocketException
 import java.net.SocketTimeoutException

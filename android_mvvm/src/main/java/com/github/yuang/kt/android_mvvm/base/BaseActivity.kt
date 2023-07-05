@@ -16,13 +16,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
+import com.amap.api.location.AMapLocationClient
+import com.blankj.utilcode.util.LogUtils
 import com.github.yuang.kt.android_mvvm.R
 import com.github.yuang.kt.android_mvvm.databinding.ActivityBaseBinding
 import com.github.yuang.kt.android_mvvm.databinding.BaseViewStubToolbarBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.github.yuang.kt.android_mvvm.ext.initImmersionBar
-import com.github.yuang.kt.android_mvvm.ext.launchVmRequest
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
+import com.github.yuang.kt.android_mvvm.utils.AmapLocationUtils
 import com.github.yuang.kt.android_mvvm.utils.AppManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.yk.loading.LoadingDialog
@@ -150,7 +152,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         mContext = this
         intent.extras?.let { getBundleExtras(it) }
         init(savedInstanceState)
-        AppManager.pushActivity(this)
+        AppManager.getAppManager().addActivity(this)
     }
 
     override fun onResume() {
@@ -311,7 +313,10 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
 
     override fun onDestroy() {
-        AppManager.popActivity(this)
+        AppManager.getAppManager().finishActivity(this)
+        if (this::class.simpleName.equals("MainActivity")) {
+            AmapLocationUtils.getInstance().destroyLocation()
+        }
         super.onDestroy()
     }
 

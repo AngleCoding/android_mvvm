@@ -1,6 +1,9 @@
 package com.github.yuang.kt.android_mvvm.ext
 
 import com.github.yuang.kt.android_mvvm.exception.AppException
+import rxhttp.wrapper.exception.ParseException
+
+//import com.github.yuang.kt.android_mvvm.exception.AppException
 
 /**
  * @author AnglePenCoding

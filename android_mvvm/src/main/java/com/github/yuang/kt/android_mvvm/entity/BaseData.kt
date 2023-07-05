@@ -5,7 +5,7 @@ package com.github.yuang.kt.android_mvvm.entity
  * Created by on 2023/2/17 0017
  * @website https://github.com/AnglePengCoding
  */
-open class BaseData<T>(
+class BaseData<T>(
     private var msg: String = "查询成功",
     var result: T,
     var code: String = "200"

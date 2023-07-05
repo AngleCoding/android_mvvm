@@ -2,4 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+    <application>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="afa1a6f2661c93b1dc6bd96351804597" />
+
+        <service android:name="com.amap.api.location.APSService" />
+    </application>
 </manifest>

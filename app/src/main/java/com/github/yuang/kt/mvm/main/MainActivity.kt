@@ -3,11 +3,11 @@ package com.github.yuang.kt.mvm.main
 import android.os.Bundle
 import android.view.View.GONE
 import androidx.viewbinding.ViewBinding
+import com.blankj.utilcode.util.LogUtils
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
-import com.github.yuang.kt.android_mvvm.ext.showToast
-import com.github.yuang.kt.android_mvvm.ext.vmObserverLoading
-import com.github.yuang.kt.android_mvvm.ext.vmObserverMain
+import com.github.yuang.kt.android_mvvm.ext.*
 import com.github.yuang.kt.mvm.databinding.ActivityMainBinding
+import com.github.yuang.kt.mvm.login.LoginActivity
 
 class MainActivity : BaseActivity() {
     private val mainViewModel by lazy { MainViewModel() }
@@ -25,22 +25,25 @@ class MainActivity : BaseActivity() {
     override fun initData() {
         mainViewModel.refreshData.vmObserverMain(this,
             onSuccess = {
+                if (it.code == "200") {
 
+                } else {
+                    showToast(it.msg)
+                }
             }
         )
 
     }
 
     override fun initViewModel() {
-//        mainViewModel.login()
     }
 
     override fun setListeners() {
         super.setListeners()
-        mainBinding.mBtLogin.setOnClickListener {
+
+        mainBinding.mBtLogin.click {
             mainViewModel.login()
         }
-
     }
 
 }

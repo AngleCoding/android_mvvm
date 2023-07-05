@@ -3,6 +3,10 @@ package com.github.yuang.kt.android_mvvm
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import com.amap.api.location.AMapLocation
+import com.amap.api.location.AMapLocationClient
+import com.blankj.utilcode.util.LogUtils
+import com.github.yuang.kt.android_mvvm.utils.AmapLocationUtils
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -17,12 +21,20 @@ import rxhttp.RxHttpPlugins.init
  * @website https://github.com/AnglePengCoding
  */
 abstract class BaseApp : Application() {
+
+
     companion object {
+
         @SuppressLint("StaticFieldLeak")
         lateinit var instance: BaseApp
 
         @SuppressLint("StaticFieldLeak")
         lateinit var mContext: Context
+
+        var mLocation = AMapLocation("")
+        fun getLocation(): AMapLocation {
+            return mLocation
+        }
     }
 
     init {
@@ -43,7 +55,26 @@ abstract class BaseApp : Application() {
         instance = this
         mContext = this
         initAutoSize()
+        initLocation()
         initRxHttp()
+    }
+
+    private fun initLocation() {
+        AMapLocationClient.updatePrivacyShow(this, true, true)
+        AMapLocationClient.updatePrivacyAgree(this, true)
+
+        AmapLocationUtils.getInstance().initLocation(mContext, object : AmapLocationUtils.Callback {
+            override fun onSuccess(location: AMapLocation) {
+                mLocation = location
+            }
+
+            override fun onFailure(message: String?) {
+                LogUtils.e("定位失败： $message")
+            }
+
+        })
+        AmapLocationUtils.getInstance().stopLocation()
+
     }
 
     private fun initRxHttp() {

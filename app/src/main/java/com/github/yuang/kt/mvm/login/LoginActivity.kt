@@ -1,7 +1,10 @@
 package com.github.yuang.kt.mvm.login
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.viewbinding.ViewBinding
+import com.blankj.utilcode.util.LogUtils
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.mvm.databinding.ActivityLoginBinding
 
@@ -14,6 +17,8 @@ class LoginActivity : BaseActivity() {
         return binding
     }
 
+    override fun getBundleExtras(extras: Bundle?) {
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
     }

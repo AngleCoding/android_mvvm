@@ -1,5 +1,7 @@
 package com.github.yuang.kt.android_mvvm.ext
 
+import android.app.Activity
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -35,31 +37,25 @@ fun AppCompatActivity.initImmersionBar(
  * 软键盘的隐藏
  * [view] 事件控件View
  */
-fun AppCompatActivity.dismissKeyBoard(view: View) {
+fun Activity.dismissKeyBoard(view: View) {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager?
     imm?.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 
 /**
- * 跳转页面
- *
+ * Activity 跳转
  */
-fun AppCompatActivity.startActvity(packageContext: Context, cls: Class<Any>) {
-    val intent = Intent(packageContext, cls::class.java)
-    startActivity(intent)
-}
+inline fun <reified T : AppCompatActivity> Context?.startActivity() =
+    this?.startActivity(Intent(this, T::class.java))
+
 
 /**
- * 跳转页面
- *携带数据
+ * 携带数据
  */
-fun AppCompatActivity.startActvity(packageContext: Context, cls: Class<Any>, bundle: Bundle) {
-    val intent = Intent(packageContext, cls::class.java)
-    intent.putExtras(bundle)
-    startActivity(intent)
-}
 
+inline fun <reified T : AppCompatActivity> Context?.startActivity(bundle: Bundle) =
+    this?.startActivity(Intent(this, T::class.java).putExtras(bundle))
 
 
 /**
@@ -74,3 +70,15 @@ val AppCompatActivity.viewLifeCycleOwner: LifecycleOwner
  */
 val AppCompatActivity.context: Context
     get() = this
+
+
+/**
+ * 启动service
+ */
+
+inline fun <reified T : Service> Context?.startSerview() =
+    this?.startService(Intent(this, T::class.java))
+
+
+
+
