@@ -88,6 +88,7 @@ dependencies {
     api("androidx.datastore:datastore-preferences:1.0.0")
     api 'com.contrarywind:Android-PickerView:4.1.9'
     api 'com.github.azhon:AppUpdate:4.2.0'
+    api 'com.squareup.okhttp3:logging-interceptor:4.0.1'
 }
 
 
