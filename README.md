@@ -1,7 +1,7 @@
 # Android kotlin协程 [![](https://jitpack.io/v/AnglePengCoding/android_mvvm.svg)](https://jitpack.io/#AnglePengCoding/android_mvvm)
 
 
-<h3>kotlin协程+Rxhttp+ViewBinding，网络加载异常页面显示以及加载弹窗，支持dialog加载，同时也支持页面加载，使用不同网络请求即可对应不同的加载模式等</h3>
+<h3> Sample Android Components Architecture on a modular word focused on the scalability, testability and maintainability written in Kotlin, following best practices using Jetpack.</h3>
 
 
 
