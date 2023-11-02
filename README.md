@@ -1,17 +1,17 @@
-# Android kotlin协程 [![](https://jitpack.io/v/AnglePengCoding/android_mvvm.svg)](https://jitpack.io/#AnglePengCoding/android_mvvm)
+# Android kotlin MVVM Coroutine [![](https://jitpack.io/v/AnglePengCoding/android_mvvm.svg)](https://jitpack.io/#AnglePengCoding/android_mvvm)
 
 
 <h3> Sample Android Components Architecture on a modular word focused on the scalability, testability and maintainability written in Kotlin, following best practices using Jetpack.</h3>
 
 
 
-<h3>Android官网指导</h3>
+<h3>Android Official website guidance</h3>
 
-Kotlin协程开发基础了解：
+Basic understanding of Kotlin collaborative development：
 (https://developer.android.google.cn/kotlin/coroutines?hl=zh-cn)
 
 
-<h3>添加依赖</h3>
+<h3>Add Dependency</h3>
 
 ```java
 
@@ -20,7 +20,7 @@ Kotlin协程开发基础了解：
 ```
 
 
-<h3>录屏</h3>
+<h3>Screen recording</h3>
 
 <div align=start>
 <img src="https://github.com/AnglePengCoding/android_mvvm/blob/main/GIF/mvvm_home.gif" width="250" height="300" />
@@ -32,7 +32,7 @@ Kotlin协程开发基础了解：
 <img src="https://github.com/AnglePengCoding/android_mvvm/blob/main/GIF/mvvm_not_net.gif" width="250" height="300" />
 </div>
 
-<h3>网络请求</h3>
+<h3>network request</h3>
 
 ```java
 
@@ -73,7 +73,7 @@ Kotlin协程开发基础了解：
 
 ```
 
-<h3>分页模式</h3>
+<h3>paging mode</h3>
 
 ```java
 
@@ -168,7 +168,7 @@ Kotlin协程开发基础了解：
          
 ```
 
-<h3>preferencesDataStore 数据保存</h3>
+<h3>preferencesDataStore Data storage</h3>
 
 ```java
 
@@ -178,16 +178,6 @@ Kotlin协程开发基础了解：
 ```
 
 ***
-<h3>欢迎帅哥美女打赏，在下感激不尽！！！</h3>
-
-<div align=start>
-<img src="https://github.com/AnglePengCoding/android_picture/blob/main/GIF/wx.jpg" width="250" height="300" />
-
-<img src="https://github.com/AnglePengCoding/android_picture/blob/main/GIF/zfb.jpg" width="250" height="300" />
-</div>
-
-
-```java
 
 
 MIT License
