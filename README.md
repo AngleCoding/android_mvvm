@@ -175,55 +175,6 @@ Basic understanding of Kotlin collaborative development：
         }, searchPestListByDaytBean)
     }
 
-    private fun initRefreshData() {
-            HomeViewModel.refreshData.vmObserverLoading(this,
-            onSuccess = {
-            pageNumber = it.result.pager.pageNumber
-            if (it.result.pager.pageNumber == 1) {
-            adapter.submitList(it.result.list)
-            } else {
-            adapter.addAll(it.result.list)
-            }
-
-            if (it.result.pager.pageNumber >= it.result.pager.recordCount) {
-            helper?.trailingLoadState = LoadState.NotLoading(true)
-            } else {
-            helper?.trailingLoadState = LoadState.NotLoading(false)
-            }
-            }, onComplete = {
-            binding.mSmartRefreshLayout.finishRefresh()
-            }
-            )
-
-         }
-
-
-    class HomeViewModel : BaseViewModel() {
-
-    private val mHomeRepository by lazy { HomeRepository() }
-
-            val refreshData: VmLiveData<SearchEntForSamplingBean> = MutableLiveData()
-
-            var pageNumber: Int = 1
-
-
-            fun searchEntForSamplingF() {
-            pageNumber = 1
-            searchEntForSampling(this.pageNumber)
-            }
-
-            fun searchEntForSamplingMore() {
-            this.pageNumber++
-            searchEntForSampling(this.pageNumber)
-            }
-
-    private fun searchEntForSampling(pageNumber: Int) {
-            launchVmRequest({
-            mHomeRepository.searchEntForSampling(pageNumber)
-            }, refreshData)
-            }
-        }
-
 
         suspend fun searchEntForSampling(pageNumber: Int): BaseData<SearchEntForSamplingBean> {
             val mSearchEntForSamplingBean =
