@@ -76,28 +76,103 @@ Basic understanding of Kotlin collaborative development：
 <h3>paging mode</h3>
 
 ```java
+    private var helper: QuickAdapterHelper? = null
 
     private fun initAdapter() {
-        adapter = SearchEntForSamplingAdapter()
-        helper = QuickAdapterHelper.Builder(adapter)
+    adapter = PestForecastAdapter()
+    helper = QuickAdapterHelper.Builder(adapter)
             .setTrailingLoadStateAdapter(object : TrailingLoadStateAdapter.OnTrailingListener {
                 override fun onFailRetry() {
-                    HomeViewModel.searchEntForSamplingF()
+                    baseModel.searchPestListByDayF(deviceId, startTime, endTime, category)
                 }
 
                 override fun onLoad() {
-                    HomeViewModel.searchEntForSamplingMore()
+                    if (pagerNumber >= pagerCount) {
+                        pagerNumber = pagerCount
+                        helper?.trailingLoadState = LoadState.NotLoading(true)
+                    } else {
+
+                        if (pagerNumber == pagerIndex) {
+                            ++pagerNumber
+                        }
+
+                        baseModel.searchPestListByDay(
+                            deviceId,
+                            startTime,
+                            endTime,
+                            category,
+                            pagerNumber
+                        )
+
+                    }
+
+
                 }
 
                 override fun isAllowLoading(): Boolean {
-                    return true
+                    return !binding.mSmartRefreshLayout.isRefreshing
+                }
+            }).build()
+
+         binding.mRecyclerView.layoutManager = LinearLayoutManager(context)
+         binding.mRecyclerView.adapter = helper?.adapter
+
+
+        baseModel.searchPestListByDaytBean.vmObserverDefault(this,
+            onSuccess = {
+                adapter.setEmptyViewLayout(mContext, R.layout.empty_view)
+                adapter.isEmptyViewEnable = true
+
+                //总页数
+                pagerCount = it.result.pager.pageCount
+                //当前页数
+                pagerIndex = it.result.pager.pageSize
+
+                if (pagerIndex == 1) {
+                    adapter.submitList(it.result.list)
+                } else {
+                    adapter.addAll(it.result.list)
                 }
 
 
-            }).build()
+                if (it.result.list.isEmpty()) {
+                    helper?.trailingLoadState = LoadState.None
+                } else {
+                    if (pagerIndex >= pagerCount) {
+                        helper?.trailingLoadState = LoadState.NotLoading(true)
+                    } else {
+                        helper?.trailingLoadState = LoadState.NotLoading(false)
+                    }
+                }
 
-        binding.mRecyclerView.layoutManager = LinearLayoutManager(mContext)
-        binding.mRecyclerView.adapter = helper?.adapter
+            },
+
+            onComplete = {
+                binding.mSmartRefreshLayout.finishRefresh()
+            }
+        )
+
+
+    fun searchPestListByDayF(
+        deviceId: String,
+        startDate: String,
+        endDate: String,
+        category: String,
+    ) {
+        searchPestListByDay(deviceId, startDate, endDate, category, 1)
+    }
+
+
+    fun searchPestListByDay(
+        deviceId: String,
+        startDate: String,
+        endDate: String,
+        category: String,
+        pageSize: Int
+    ) {
+        launchVmRequest({
+            baseRepository.searchPestListByDay(deviceId, category, startDate, endDate,pageSize)
+        }, searchPestListByDaytBean)
     }
 
     private fun initRefreshData() {
