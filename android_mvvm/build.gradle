@@ -71,7 +71,7 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.10.0'
     api "com.github.liujingxing.rxhttp:rxhttp:3.0.2"
     ksp 'com.github.liujingxing.rxhttp:rxhttp-compiler:3.0.2'
-    api 'io.reactivex.rxjava3:rxjava:3.1.6'
+    api 'io.reactivex.rxjava3:rxjava:3.1.8'
     api 'io.reactivex.rxjava3:rxandroid:3.0.2'
     api 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2'
     api 'com.airbnb.android:lottie:6.0.0'
@@ -84,11 +84,11 @@ dependencies {
     api  'io.github.scwang90:refresh-header-classics:2.0.5'
     api 'com.github.BenShanYang:LoadingDialog:1.0.1'
     api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
-    api'com.github.AnglePengCoding:android_picture:v2.0.1'
+    api'com.github.AnglePengCoding:android_picture:2.0.2'
     api("androidx.datastore:datastore-preferences:1.0.0")
     api 'com.contrarywind:Android-PickerView:4.1.9'
     api 'com.github.azhon:AppUpdate:4.2.0'
-    api 'com.squareup.okhttp3:logging-interceptor:4.0.1'
+    api 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 }
 
 
