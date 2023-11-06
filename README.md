@@ -1,5 +1,8 @@
 # Android kotlin MVVM Coroutine [![](https://jitpack.io/v/AnglePengCoding/android_mvvm.svg)](https://jitpack.io/#AnglePengCoding/android_mvvm)
 
+<div align=start>
+<img src="https://github.com/AnglePengCoding/android_mvvm/blob/main/GIF/android.png" width="250" height="300" />
+</div>
 
 <h3> Sample Android Components Architecture on a modular word focused on the scalability, testability and maintainability written in Kotlin, following best practices using Jetpack.</h3>
 
