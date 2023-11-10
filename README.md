@@ -79,6 +79,16 @@ Basic understanding of Kotlin collaborative development：
 <h3>paging mode</h3>
 
 ```java
+
+            //第几页
+        private var pagerNumber = 1
+
+        //总页数
+        private var pagerCount = 0
+
+        //当前页数
+        private var pagerIndex = 0
+
     private var helper: QuickAdapterHelper? = null
 
     private fun initAdapter() {
