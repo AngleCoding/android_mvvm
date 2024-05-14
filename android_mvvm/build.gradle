@@ -86,7 +86,7 @@ dependencies {
     api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     api("androidx.datastore:datastore-preferences:1.0.0")
     api 'com.contrarywind:Android-PickerView:4.1.9'
-    api 'com.github.azhon:AppUpdate:4.2.0'
+    api 'io.github.azhon:appupdate:4.3.2'
     api 'com.squareup.okhttp3:logging-interceptor:4.9.3'
     api'com.github.AngleCoding:android_picture:v2.0.4'
     api 'com.github.getActivity:XXPermissions:18.5'
