@@ -3,6 +3,7 @@ package com.github.yuang.kt.android_mvvm.ext
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import com.github.yuan.picture_take.utils.ToastUtils.showToast
 import com.github.yuang.kt.android_mvvm.entity.BaseData
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.base.BaseFragment
@@ -20,33 +21,6 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
-
-/**
- * @author AnglePenCoding
- * Created by on 2023/2/17 0017
- * @website https://github.com/AnglePengCoding
- */
-
-
-/**
- * 跟下面的方法类似,只是调用形式上有所区别
- * 这种vmResult要提前定义好
- * 下面vmResult: VmResult<T>.() -> Unit可以直接写在参数里面
- */
-@MainThread
-inline fun <T> VmLiveData<T>.vmObserver(owner: LifecycleOwner, vmResult: VmResult<T>) {
-    observe(owner) {
-        if (it is VmState.Loading) {
-            vmResult.onAppLoading()
-        } else if (it is VmState.Success) {
-            vmResult.onAppSuccess(it.result)
-            vmResult.onAppComplete()
-        } else if (it is VmState.Error) {
-            vmResult.onAppError(it.error)
-            vmResult.onAppComplete()
-        }
-    }
-}
 
 
 /**
@@ -71,6 +45,8 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
             activity.showSuccessLayout()
         } else if (it is VmState.Error) {
             activity.showErrorLayout(it.error.errorMsg)
+        }else if (it is VmState.TokenFailure){
+            activity.logOut()
         }
     }
 }
@@ -102,29 +78,12 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
                 activity.showErrorLayout(it.error.errorMsg)
                 onComplete()
             }
+        }else if (it is VmState.TokenFailure){
+            activity.logOut()
         }
     }
 }
 
-/**
- * 重写所有回调方法
- * onAppLoading
- * onAppSuccess
- * onAppError
- * onAppComplete
- */
-@MainThread
-inline fun <T> VmLiveData<T>.vmObserver(owner: LifecycleOwner, vmResult: VmResult<T>.() -> Unit) {
-    val result = VmResult<T>();result.vmResult();observe(owner) {
-        if (it is VmState.Loading) {
-            result.onAppLoading()
-        } else if (it is VmState.Success) {
-            result.onAppSuccess(it.result);result.onAppComplete()
-        } else if (it is VmState.Error) {
-            result.onAppError(it.error);result.onAppComplete()
-        }
-    }
-}
 
 /**
  * 带loading的网络请求
@@ -147,6 +106,8 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             if (null != tips && tips) activity.showToast(it.error.errorMsg)
             activity.dismissLoadingDialog(BaseViewStatus.ERROR)
             activity.showErrorLayout(it.error.errorMsg)
+        }else if (it is VmState.TokenFailure){
+            activity.logOut()
         }
     }
 }
@@ -177,6 +138,8 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             activity.dismissLoadingDialog(BaseViewStatus.ERROR)
             activity.showErrorLayout(it.error.errorMsg)
             onComplete()
+        }else if (it is VmState.TokenFailure){
+            activity.logOut()
         }
     }
 }
@@ -199,6 +162,8 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
             onSuccess(it.result)
         } else if (it is VmState.Error) {
             if (null != tips && tips) activity.showToast(it.error.errorMsg)
+        }else if (it is VmState.TokenFailure){
+            activity.logOut()
         }
     }
 }
@@ -225,10 +190,12 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
         } else if (it is VmState.Error) {
             if (null != tips && tips) activity.showToast(it.error.errorMsg)
             onComplete()
+        }else if (it is VmState.TokenFailure){
+            activity.logOut()
         }
+
     }
 }
-
 
 /**
  * 带loading的网络请求
@@ -247,14 +214,20 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             is VmState.Loading -> {
                 fragment.showLoadingDialog()
             }
+
             is VmState.Success -> {
                 onSuccess(it.result)
                 fragment.dismissLoadingDialog(BaseViewStatus.SUCCESS)
             }
+
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 fragment.dismissLoadingDialog(BaseViewStatus.ERROR)
                 fragment.showErrorLayout(it.error.errorMsg)
+            }
+
+            is VmState.TokenFailure -> {
+                fragment.logOut()
             }
         }
     }
@@ -279,16 +252,22 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             is VmState.Loading -> {
                 fragment.showLoadingDialog()
             }
+
             is VmState.Success -> {
                 onSuccess(it.result)
                 fragment.dismissLoadingDialog(BaseViewStatus.SUCCESS)
                 onComplete()
             }
+
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 fragment.dismissLoadingDialog(BaseViewStatus.ERROR)
                 fragment.showErrorLayout(it.error.errorMsg)
                 onComplete()
+            }
+
+            is VmState.TokenFailure -> {
+                fragment.logOut()
             }
         }
     }
@@ -311,11 +290,17 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
         when (it) {
             is VmState.Loading -> {
             }
+
             is VmState.Success -> {
                 onSuccess(it.result)
             }
+
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+            }
+
+            is VmState.TokenFailure -> {
+                fragment.logOut()
             }
         }
     }
@@ -339,13 +324,18 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
         when (it) {
             is VmState.Loading -> {
             }
+
             is VmState.Success -> {
                 onSuccess(it.result)
                 onComplete()
             }
+
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 onComplete()
+            }
+            is VmState.TokenFailure -> {
+                fragment.logOut()
             }
         }
     }
@@ -369,15 +359,20 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
                 fragment.setBaseViewStatus(BaseViewStatus.LOADING)
                 fragment.showLoadingLayout()
             }
+
             is VmState.Success -> {
                 fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
                 fragment.showSuccessLayout()
                 onSuccess(it.result)
             }
+
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 fragment.setBaseViewStatus(BaseViewStatus.ERROR)
                 fragment.showErrorLayout(it.error.errorMsg)
+            }
+            is VmState.TokenFailure -> {
+                fragment.logOut()
             }
         }
     }
@@ -403,17 +398,23 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
                 fragment.setBaseViewStatus(BaseViewStatus.LOADING)
                 fragment.showLoadingLayout()
             }
+
             is VmState.Success -> {
                 onSuccess(it.result)
                 fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
                 fragment.showSuccessLayout()
                 onComplete()
             }
+
             is VmState.Error -> {
                 if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
                 fragment.setBaseViewStatus(BaseViewStatus.ERROR)
                 fragment.showErrorLayout(it.error.errorMsg)
                 onComplete()
+            }
+
+            is VmState.TokenFailure -> {
+                fragment.logOut()
             }
         }
     }

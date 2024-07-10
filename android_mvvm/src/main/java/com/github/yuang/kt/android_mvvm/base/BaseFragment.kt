@@ -2,6 +2,7 @@ package com.github.yuang.kt.android_mvvm.base
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +12,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
+import com.github.yuang.kt.android_mvvm.BaseApp
 import com.github.yuang.kt.android_mvvm.R
 import com.github.yuang.kt.android_mvvm.databinding.FragmentBaseBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
+import com.github.yuang.kt.android_mvvm.ext.showToast
+import com.github.yuang.kt.android_mvvm.ext.startActivity
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
+import com.github.yuang.kt.android_mvvm.utils.AppManager
 import com.yk.loading.LoadingDialog
 
 /**
@@ -105,6 +110,12 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
 
     }
 
+    override fun logOut() {
+        showToast("登录已失效,请重新登录")
+        AppManager.getAppManager().finishActivity()
+        BaseApp.instance.startLoginActivity()
+    }
+
     override fun onResume() {
         super.onResume()
         if (getBaseViewStatus() == BaseViewStatus.LOADING) {
@@ -133,6 +144,7 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
             else -> showErrorLayout("")
         }
     }
+
 
     override fun showSuccessLayout() {
         baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE

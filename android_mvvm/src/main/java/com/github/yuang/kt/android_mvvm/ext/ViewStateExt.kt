@@ -2,6 +2,7 @@ package com.github.yuang.kt.android_mvvm.ext
 
 import com.github.yuang.kt.android_mvvm.entity.BaseData
 import com.github.yuang.kt.android_mvvm.exception.AppException
+import com.github.yuang.kt.android_mvvm.exception.TokenFailureException
 
 /**
  * @author AnglePenCoding
@@ -16,8 +17,11 @@ import com.github.yuang.kt.android_mvvm.exception.AppException
  * @param result 请求结果
  */
 fun <T> VmLiveData<T>.paresVmResult(result: BaseData<T>) {
-    value = if (result.dataRight()) VmState.Success(result.result) else
-        VmState.Error(AppException(result.getMsg()))
+    value = when (result.code) {
+        "200" -> VmState.Success(result.result)
+        "401" -> VmState.TokenFailure(result.getMsg())
+        else -> VmState.Error(AppException(result.getMsg()))
+    }
 }
 
 /**

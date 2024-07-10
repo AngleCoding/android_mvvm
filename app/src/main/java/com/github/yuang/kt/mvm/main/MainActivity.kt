@@ -3,6 +3,7 @@ package com.github.yuang.kt.mvm.main
 import android.os.Bundle
 import android.view.View.GONE
 import androidx.viewbinding.ViewBinding
+import com.bj.naxx.entity.LoginBean
 import com.blankj.utilcode.util.LogUtils
 import com.github.yuang.kt.android_mvvm.base.BaseActivity
 import com.github.yuang.kt.android_mvvm.ext.*
@@ -33,6 +34,7 @@ class MainActivity : BaseActivity() {
             }
         )
 
+
     }
 
     override fun initViewModel() {
@@ -45,5 +47,8 @@ class MainActivity : BaseActivity() {
             mainViewModel.login()
         }
     }
+
+
+
 
 }

@@ -77,6 +77,7 @@ abstract class BaseApp : Application() {
 
     }
 
+    abstract fun startLoginActivity()
     private fun initRxHttp() {
         val builder = OkHttpClient.Builder()
         val chuckInterceptor = ChuckInterceptor(mContext)
@@ -92,6 +93,7 @@ abstract class BaseApp : Application() {
             isBaseOnWidth = true
             isCustomFragment = true
         }
+
     }
 
 

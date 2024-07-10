@@ -18,14 +18,18 @@ import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.amap.api.location.AMapLocationClient
 import com.blankj.utilcode.util.LogUtils
+import com.github.yuang.kt.android_mvvm.BaseApp
 import com.github.yuang.kt.android_mvvm.R
 import com.github.yuang.kt.android_mvvm.databinding.ActivityBaseBinding
 import com.github.yuang.kt.android_mvvm.databinding.BaseViewStubToolbarBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.github.yuang.kt.android_mvvm.ext.initImmersionBar
+import com.github.yuang.kt.android_mvvm.ext.showToast
+import com.github.yuang.kt.android_mvvm.ext.startActivity
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
 import com.github.yuang.kt.android_mvvm.utils.AmapLocationUtils
 import com.github.yuang.kt.android_mvvm.utils.AppManager
+import com.github.yuang.kt.android_mvvm.utils.DataStoreHelper
 import com.jakewharton.rxbinding4.view.clicks
 import com.yk.loading.LoadingDialog
 import me.jessyan.autosize.internal.CustomAdapt
@@ -350,6 +354,11 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         dialog?.show()
     }
 
+    override fun logOut() {
+        showToast("登录已失效,请重新登录")
+        AppManager.getAppManager().finishActivity()
+        BaseApp.instance.startLoginActivity()
+    }
 
     override fun dismissLoadingDialog(baseViewStatus: BaseViewStatus) {
         when (baseViewStatus) {
@@ -359,6 +368,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
                 baseBinding.vsError.visibility = VISIBLE
                 baseBinding.vsLoading.visibility = View.GONE
             }
+
             else -> {
                 baseBinding.baseMain.visibility = VISIBLE
                 baseBinding.vsError.visibility = View.GONE

@@ -31,4 +31,6 @@ interface IBaseUIView {
     fun showLoadingDialog()
 
     fun dismissLoadingDialog(baseViewStatus: BaseViewStatus)
+
+    fun logOut()
 }

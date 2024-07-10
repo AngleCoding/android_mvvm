@@ -16,11 +16,11 @@ class MainRepository {
             "application/json; charset=utf-8".toMediaTypeOrNull(),
             map.toJsonString()
         )
-        val loginBean = RxHttp.postBody("https://")
+        val loginBean = RxHttp.postBody("http://zyc.creditmoa.cn/" + "login")
             .setBody(body)
             .toAwait<LoginBean>()
             .await()
-        return BaseData("", loginBean, "200")
+        return BaseData("token失效", loginBean, "401")
     }
 
 }
