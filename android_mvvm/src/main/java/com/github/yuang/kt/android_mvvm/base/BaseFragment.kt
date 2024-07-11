@@ -3,6 +3,7 @@ package com.github.yuang.kt.android_mvvm.base
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -111,9 +112,14 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     }
 
     override fun logOut() {
-        showToast("登录已失效,请重新登录")
-        AppManager.getAppManager().finishActivity()
-        BaseApp.instance.startLoginActivity()
+        BaseApp.instance.getLoginActivity()?.let {
+            showToast("登录已失效,请重新登录")
+            AppManager.getAppManager().finishAllActivity()
+            val intent = Intent(mContext, it::class.java)
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
     }
 
     override fun onResume() {
@@ -222,14 +228,15 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
 
 
     override fun dismissLoadingDialog(baseViewStatus: BaseViewStatus) {
-        when(baseViewStatus){
+        when (baseViewStatus) {
             BaseViewStatus.ERROR
-            ->{
+            -> {
                 baseFragmentBaseBinding.baseMain.visibility = View.GONE
                 baseFragmentBaseBinding.vsError.visibility = View.VISIBLE
                 baseFragmentBaseBinding.vsLoading.visibility = View.GONE
             }
-            else->{
+
+            else -> {
                 baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
                 baseFragmentBaseBinding.vsError.visibility = View.GONE
                 baseFragmentBaseBinding.vsLoading.visibility = View.GONE

@@ -3,6 +3,7 @@ package com.github.yuang.kt.android_mvvm
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.blankj.utilcode.util.LogUtils
@@ -77,7 +78,9 @@ abstract class BaseApp : Application() {
 
     }
 
-    abstract fun startLoginActivity()
+    abstract fun getLoginActivity():AppCompatActivity?
+
+
     private fun initRxHttp() {
         val builder = OkHttpClient.Builder()
         val chuckInterceptor = ChuckInterceptor(mContext)

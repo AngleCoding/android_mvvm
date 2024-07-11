@@ -1,5 +1,6 @@
 package com.github.yuang.kt.android_mvvm.ext
 
+import android.util.Log
 import com.github.yuang.kt.android_mvvm.entity.BaseData
 import com.github.yuang.kt.android_mvvm.exception.AppException
 import com.github.yuang.kt.android_mvvm.exception.TokenFailureException
@@ -17,11 +18,17 @@ import com.github.yuang.kt.android_mvvm.exception.TokenFailureException
  * @param result 请求结果
  */
 fun <T> VmLiveData<T>.paresVmResult(result: BaseData<T>) {
-    value = when (result.code) {
-        "200" -> VmState.Success(result.result)
-        "401" -> VmState.TokenFailure(result.getMsg())
-        else -> VmState.Error(AppException(result.getMsg()))
+    if (result.code == "200") {
+        value = VmState.Success(result.result)
+        Log.e("VmLiveData", "Success")
+    } else if (result.code == "401") {
+        value = VmState.TokenFailure(result.getMsg())
+        Log.e("VmLiveData", "TokenFailure")
+    } else {
+        value = VmState.FailToast(result.getMsg())
+        Log.e("VmLiveData", "else")
     }
+
 }
 
 /**

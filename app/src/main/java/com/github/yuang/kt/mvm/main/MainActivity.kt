@@ -24,13 +24,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainViewModel.refreshData.vmObserverMain(this,
+        mainViewModel.refreshData.vmObserverLoading(this,
             onSuccess = {
-                if (it.code == "200") {
 
-                } else {
-                    showToast(it.msg)
-                }
             }
         )
 

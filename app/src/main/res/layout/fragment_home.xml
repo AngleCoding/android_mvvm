@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".main.MainActivity">
+    <Button
+        android:id="@+id/mBtLogin"
+        android:layout_centerInParent="true"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="登录" />
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+
+
+    <WebView
+        android:id="@+id/mWebView"
         android:layout_width="match_parent"
-        android:id="@+id/mSmartRefreshLayout"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
-        <com.scwang.smart.refresh.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
+    </WebView>
 
 </RelativeLayout>

@@ -23,4 +23,5 @@ sealed class VmState<out T> {
     data class Success<out T>(val result: T) : VmState<T>()
     data class Error(val error: AppException) : VmState<Nothing>()
     data class TokenFailure(val msg: String) : VmState<Nothing>()
+    data class FailToast(val msg: String) : VmState<Nothing>()
 }

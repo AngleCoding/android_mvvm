@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -355,9 +356,13 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
     override fun logOut() {
-        showToast("登录已失效,请重新登录")
-        AppManager.getAppManager().finishActivity()
-        BaseApp.instance.startLoginActivity()
+        BaseApp.instance.getLoginActivity()?.let {
+            showToast("登录已失效,请重新登录")
+            AppManager.getAppManager().finishAllActivity()
+            val intent = Intent(this, it::class.java)
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
     }
 
     override fun dismissLoadingDialog(baseViewStatus: BaseViewStatus) {
