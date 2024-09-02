@@ -74,7 +74,7 @@ abstract class BaseApp : Application() {
             }
 
         })
-        AmapLocationUtils.getInstance().stopLocation()
+        AmapLocationUtils.getInstance().startLocation()
 
     }
 
