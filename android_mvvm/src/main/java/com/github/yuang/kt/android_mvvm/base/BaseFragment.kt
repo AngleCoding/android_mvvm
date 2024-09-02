@@ -143,9 +143,9 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         return myBaseViewStatus
     }
 
-    override fun setBaseViewStatus(baseViewStatus: BaseViewStatus?) {
+    override fun setBaseViewStatus(baseViewStatus: BaseViewStatus?, lottieLoadingUrl: String?) {
         when (baseViewStatus) {
-            BaseViewStatus.LOADING -> showLoadingLayout()
+            BaseViewStatus.LOADING -> showLoadingLayout(lottieLoadingUrl)
             BaseViewStatus.SUCCESS -> showSuccessLayout()
             else -> showErrorLayout("")
         }
@@ -165,12 +165,14 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         myBaseViewStatus = BaseViewStatus.SUCCESS
     }
 
-    override fun showLoadingLayout() {
+    override fun showLoadingLayout(lottieLoadingUrl: String?) {
         loadingView ?: let {
-            lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
-            lottieLoadingView!!.setAnimation(lottieLoadingUrl)
-            lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
-            lottieLoadingView!!.playAnimation()
+            lottieLoadingUrl?.let {
+                lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
+                lottieLoadingView!!.setAnimation(lottieLoadingUrl)
+                lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
+                lottieLoadingView!!.playAnimation()
+            }
         }
 
         baseFragmentBaseBinding.baseMain.visibility = View.GONE
@@ -207,14 +209,14 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
     /**
      * 网络请求加载的中间弹窗
      */
-    override fun showLoadingDialog() {
+    override fun showLoadingDialog(loadTxt: String?) {
         baseFragmentBaseBinding.baseMain.visibility = View.VISIBLE
         baseFragmentBaseBinding.vsError.visibility = View.GONE
         baseFragmentBaseBinding.vsLoading.visibility = View.GONE
 
         if (dialog == null) {
             val loadBuilder = LoadingDialog.Builder(mContext)
-                .setMessage("加载中...") //设置提示文字
+                .setMessage(loadTxt ?: "加载中...") //设置提示文字
                 .setCancelable(true) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
                 .setMessageSize(14) //提示文字字号

@@ -32,22 +32,22 @@ import java.util.concurrent.TimeoutException
 @MainThread
 inline fun <T> VmLiveData<T>.vmObserverMain(
     activity: BaseActivity,
-    tips: Boolean? = true,
+    lottieLoadingUrl: String = "lottie/loading-animation-blue.json",
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(activity) {
         if (it is VmState.Loading) {
-            activity.setBaseViewStatus(BaseViewStatus.LOADING)
+            activity.setBaseViewStatus(BaseViewStatus.LOADING, lottieLoadingUrl)
         } else if (it is VmState.Success) {
             onSuccess(it.result)
-            activity.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            activity.setBaseViewStatus(BaseViewStatus.SUCCESS, lottieLoadingUrl)
         } else if (it is VmState.Error) {
-            if (null != tips && tips) activity.showToast(it.error.errorMsg)
+            activity.showToast(it.error.errorMsg)
             activity.showErrorLayout(it.error.errorMsg)
         } else if (it is VmState.TokenFailure) {
             activity.logOut()
         } else if (it is VmState.FailToast) {
-            activity.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            activity.setBaseViewStatus(BaseViewStatus.SUCCESS, lottieLoadingUrl)
             activity.showToast(it.msg)
         }
     }
@@ -63,21 +63,20 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
 @MainThread
 inline fun <T> VmLiveData<T>.vmObserverDefault(
     activity: BaseActivity,
-    tips: Boolean? = true,
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(activity) {
         if (it is VmState.Loading) {
         } else if (it is VmState.Success) {
-            activity.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            activity.setBaseViewStatus(BaseViewStatus.SUCCESS, null)
             onSuccess(it.result)
         } else if (it is VmState.Error) {
-            if (null != tips && tips) activity.showToast(it.error.errorMsg)
+            activity.showToast(it.error.errorMsg)
             activity.showErrorLayout(it.error.errorMsg)
         } else if (it is VmState.TokenFailure) {
             activity.logOut()
         } else if (it is VmState.FailToast) {
-            activity.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            activity.setBaseViewStatus(BaseViewStatus.SUCCESS, null)
             activity.showToast(it.msg)
         }
     }
@@ -92,13 +91,13 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
 @MainThread
 inline fun <T> VmLiveData<T>.vmObserverLoading(
     activity: BaseActivity,
-    tips: Boolean? = true,
+    loadTxt: String = "加载中...",
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(activity) {
         when (it) {
             is VmState.Loading -> {
-                activity.showLoadingDialog()
+                activity.showLoadingDialog(loadTxt)
             }
 
             is VmState.Success -> {
@@ -107,7 +106,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             }
 
             is VmState.Error -> {
-                if (null != tips && tips) activity.showToast(it.error.errorMsg)
+                activity.showToast(it.error.errorMsg)
                 activity.dismissLoadingDialog(BaseViewStatus.ERROR)
             }
 
@@ -127,22 +126,22 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
 @MainThread
 inline fun <T> VmLiveData<T>.vmObserverMain(
     fragment: BaseFragment,
-    tips: Boolean? = true,
+    lottieLoadingUrl: String = "lottie/loading-animation-blue.json",
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(fragment) {
         if (it is VmState.Loading) {
-            fragment.setBaseViewStatus(BaseViewStatus.LOADING)
+            fragment.setBaseViewStatus(BaseViewStatus.LOADING, lottieLoadingUrl)
         } else if (it is VmState.Success) {
             onSuccess(it.result)
-            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS, lottieLoadingUrl)
         } else if (it is VmState.Error) {
-            if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
+            fragment.requireContext().showToast(it.error.errorMsg)
             fragment.showErrorLayout(it.error.errorMsg)
         } else if (it is VmState.TokenFailure) {
             fragment.logOut()
         } else if (it is VmState.FailToast) {
-            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS, lottieLoadingUrl)
             fragment.requireContext().showToast(it.msg)
         }
     }
@@ -164,7 +163,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
     observe(fragment) {
         if (it is VmState.Loading) {
         } else if (it is VmState.Success) {
-            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS, null)
             onSuccess(it.result)
         } else if (it is VmState.Error) {
             if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
@@ -172,7 +171,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
         } else if (it is VmState.TokenFailure) {
             fragment.logOut()
         } else if (it is VmState.FailToast) {
-            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS)
+            fragment.setBaseViewStatus(BaseViewStatus.SUCCESS, null)
             fragment.requireContext().showToast(it.msg)
         }
     }
@@ -188,12 +187,13 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
 inline fun <T> VmLiveData<T>.vmObserverLoading(
     fragment: BaseFragment,
     tips: Boolean? = true,
+    loadTxt: String = "加载中...",
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(fragment) {
         when (it) {
             is VmState.Loading -> {
-                fragment.showLoadingDialog()
+                fragment.showLoadingDialog(loadTxt)
             }
 
             is VmState.Success -> {
@@ -217,7 +217,6 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
         }
     }
 }
-
 
 
 /**

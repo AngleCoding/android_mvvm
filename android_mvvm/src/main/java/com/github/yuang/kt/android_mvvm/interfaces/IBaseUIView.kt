@@ -14,13 +14,13 @@ interface IBaseUIView {
     fun getBaseViewStatus(): BaseViewStatus?
 
     /** 手动设置布局状态,一般情况不需要  */
-    fun setBaseViewStatus(baseViewStatus: BaseViewStatus?)
+    fun setBaseViewStatus(baseViewStatus: BaseViewStatus?,lottieLoadingUrl: String?)
 
     /** 显示成功布局  */
     fun showSuccessLayout()
 
     /** 显示加载中布局  */
-    fun showLoadingLayout()
+    fun showLoadingLayout(lottieLoadingUrl: String?)
 
     /** 显示失败布局  */
     fun showErrorLayout(errorMsg: String?)
@@ -28,7 +28,7 @@ interface IBaseUIView {
     /**
      * 网络请求加载中间弹窗
      */
-    fun showLoadingDialog()
+    fun showLoadingDialog(loadTxt:String?)
 
     fun dismissLoadingDialog(baseViewStatus: BaseViewStatus)
 

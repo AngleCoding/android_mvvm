@@ -24,11 +24,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainViewModel.refreshData.vmObserverLoading(this,
-            onSuccess = {
+        mainViewModel.refreshData.vmObserverLoading(this, onSuccess = {
 
-            }
-        )
+        })
 
 
     }
@@ -43,8 +41,6 @@ class MainActivity : BaseActivity() {
             mainViewModel.login()
         }
     }
-
-
 
 
 }

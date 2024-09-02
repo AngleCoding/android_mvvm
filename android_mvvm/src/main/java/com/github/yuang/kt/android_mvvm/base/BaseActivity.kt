@@ -7,12 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
@@ -24,6 +26,7 @@ import com.github.yuang.kt.android_mvvm.R
 import com.github.yuang.kt.android_mvvm.databinding.ActivityBaseBinding
 import com.github.yuang.kt.android_mvvm.databinding.BaseViewStubToolbarBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
+import com.github.yuang.kt.android_mvvm.ext.click
 import com.github.yuang.kt.android_mvvm.ext.initImmersionBar
 import com.github.yuang.kt.android_mvvm.ext.showToast
 import com.github.yuang.kt.android_mvvm.ext.startActivity
@@ -80,6 +83,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
      * 数据请求
      */
     abstract fun initViewModel()
+
 
     /**
      * 接收bundle数据
@@ -143,6 +147,11 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
      */
     open fun setLottieErrorUrl(lottieErrorUrl: String) {
         this.lottieErrorUrl = lottieErrorUrl
+    }
+
+
+    fun starActivity() {
+
     }
 
     /**
@@ -244,15 +253,17 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
 
-    override fun showLoadingLayout() {
+    override fun showLoadingLayout(lottieLoadingUrl: String?) {
         runOnUiThread {
             loadingView?.let {
-                lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
-                lottieLoadingView!!.setAnimation(lottieLoadingUrl)
-                lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
-                lottieLoadingView!!.playAnimation()
-                loadingMsgView = loadingView!!.findViewById(R.id.tv_baseloadingmsg)
-                loadingMsgView?.text = loadingMsg
+                lottieLoadingUrl?.let {
+                    lottieLoadingView = loadingView!!.findViewById(R.id.lottie_loading_view)
+                    lottieLoadingView!!.setAnimation(lottieLoadingUrl)
+                    lottieLoadingView!!.repeatCount = ValueAnimator.INFINITE
+                    lottieLoadingView!!.playAnimation()
+                    loadingMsgView = loadingView!!.findViewById(R.id.tv_baseloadingmsg)
+                    loadingMsgView?.text = loadingMsg
+                }
             }
         }
 
@@ -266,18 +277,18 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
     override fun showErrorLayout(errorMsg: String?) {
         runOnUiThread {
-            errorView?.let {
-                lottieErrorView = errorView!!.findViewById(R.id.lottie_error_view)
-                lottieErrorView!!.setAnimation(lottieErrorUrl)
-                lottieErrorView!!.repeatCount = ValueAnimator.INFINITE
-                lottieErrorView!!.playAnimation()
-
-                errorView!!.findViewById<TextView>(R.id.tv_reload).apply {
-                    setOnClickListener {
-                        initViewModel()
-                    }
+            errorView?.run {
+                lottieErrorView = findViewById(R.id.lottie_error_view)
+                lottieErrorView?.run {
+                    setAnimation(lottieErrorUrl)
+                    repeatCount = ValueAnimator.INFINITE
+                    playAnimation()
+                }
+                findViewById<TextView>(R.id.tv_reload).click {
+                    initViewModel()
                 }
             }
+
         }
         baseBinding.baseMain.visibility = View.GONE
         baseBinding.vsError.visibility = VISIBLE
@@ -300,9 +311,9 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         myBaseViewStatus = BaseViewStatus.SUCCESS
     }
 
-    override fun setBaseViewStatus(baseViewStatus: BaseViewStatus?) {
+    override fun setBaseViewStatus(baseViewStatus: BaseViewStatus?, lottieLoadingUrl: String?) {
         when (baseViewStatus) {
-            BaseViewStatus.LOADING -> showLoadingLayout()
+            BaseViewStatus.LOADING -> showLoadingLayout(lottieLoadingUrl)
             BaseViewStatus.SUCCESS -> showSuccessLayout()
             else -> showErrorLayout("")
         }
@@ -326,24 +337,26 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
     }
 
     private fun initPermission() {
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.INTERNET,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), PERMISSION_REQUEST
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ), PERMISSION_REQUEST
+            )
+        }
     }
 
 
     /**
      * 网络请求加载的中间弹窗
      */
-    override fun showLoadingDialog() {
+    override fun showLoadingDialog(loadTxt: String?) {
         if (dialog == null) {
             val loadBuilder = LoadingDialog.Builder(mContext)
-                .setMessage("加载中...") //设置提示文字
+                .setMessage(loadTxt ?: "加载中...") //设置提示文字
                 .setCancelable(false) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
                 .setMessageSize(14) //提示文字字号
