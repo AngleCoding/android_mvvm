@@ -385,6 +385,21 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
                 baseBinding.baseMain.visibility = View.GONE
                 baseBinding.vsError.visibility = VISIBLE
                 baseBinding.vsLoading.visibility = View.GONE
+
+                runOnUiThread {
+                    errorView?.run {
+                        lottieErrorView = findViewById(R.id.lottie_error_view)
+                        lottieErrorView?.run {
+                            setAnimation(lottieErrorUrl)
+                            repeatCount = ValueAnimator.INFINITE
+                            playAnimation()
+                        }
+                        findViewById<TextView>(R.id.tv_reload).click {
+                            initViewModel()
+                        }
+                    }
+
+                }
             }
 
             else -> {
