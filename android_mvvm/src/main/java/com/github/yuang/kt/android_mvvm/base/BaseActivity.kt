@@ -365,7 +365,11 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
             dialog = loadBuilder.create()
         }
-        dialog?.show()
+        
+        dialog?.run {
+            setLoadingMsg(loadTxt ?: "加载中...")
+            show()
+        }
     }
 
     override fun logOut() {
