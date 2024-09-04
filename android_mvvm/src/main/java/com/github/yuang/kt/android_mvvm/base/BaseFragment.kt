@@ -17,6 +17,7 @@ import com.github.yuang.kt.android_mvvm.BaseApp
 import com.github.yuang.kt.android_mvvm.R
 import com.github.yuang.kt.android_mvvm.databinding.FragmentBaseBinding
 import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
+import com.github.yuang.kt.android_mvvm.ext.click
 import com.github.yuang.kt.android_mvvm.ext.showToast
 import com.github.yuang.kt.android_mvvm.ext.startActivity
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
@@ -214,17 +215,19 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         baseFragmentBaseBinding.vsError.visibility = View.GONE
         baseFragmentBaseBinding.vsLoading.visibility = View.GONE
 
+        var loadBuilder: LoadingDialog.Builder? = null
         if (dialog == null) {
-            val loadBuilder = LoadingDialog.Builder(mContext)
+            loadBuilder = LoadingDialog.Builder(mContext)
                 .setMessage(loadTxt ?: "加载中...") //设置提示文字
-                .setCancelable(true) //按返回键取消
+                .setCancelable(false) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
                 .setMessageSize(14) //提示文字字号
-                .setBackgroundTransparent(true) //弹窗背景色是透明或半透明
-                .setCancelOutside(true) //点击空白区域弹消失
+                .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
+                .setCancelOutside(false) //点击空白区域弹消失
 
             dialog = loadBuilder.create()
         }
+        loadBuilder?.setMessage(loadTxt)
         dialog?.show()
     }
 
@@ -244,6 +247,19 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
                 baseFragmentBaseBinding.vsLoading.visibility = View.GONE
             }
         }
+
+        errorView?.run {
+            lottieErrorView = findViewById(R.id.lottie_error_view)
+            lottieErrorView?.run {
+                setAnimation(lottieErrorUrl)
+                repeatCount = ValueAnimator.INFINITE
+                playAnimation()
+            }
+            findViewById<TextView>(R.id.tv_reload).click {
+                initViewModel()
+            }
+        }
+
         dialog?.dismiss()
     }
 }

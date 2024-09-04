@@ -354,8 +354,9 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
      * 网络请求加载的中间弹窗
      */
     override fun showLoadingDialog(loadTxt: String?) {
+        var loadBuilder: LoadingDialog.Builder? = null
         if (dialog == null) {
-            val loadBuilder = LoadingDialog.Builder(mContext)
+            loadBuilder = LoadingDialog.Builder(mContext)
                 .setMessage(loadTxt ?: "加载中...") //设置提示文字
                 .setCancelable(false) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
@@ -365,11 +366,9 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
 
             dialog = loadBuilder.create()
         }
-        
-        dialog?.run {
-            setLoadingMsg(loadTxt ?: "加载中...")
-            show()
-        }
+        loadBuilder?.setMessage(loadTxt)
+        dialog?.show()
+
     }
 
     override fun logOut() {
