@@ -215,8 +215,10 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         baseFragmentBaseBinding.vsError.visibility = View.GONE
         baseFragmentBaseBinding.vsLoading.visibility = View.GONE
 
-        if (dialog==null){
-            val loadBuilder: LoadingDialog.Builder = LoadingDialog.Builder(mContext)
+
+        val loadBuilder = LoadingDialog.Builder(mContext)
+        if (dialog == null) {
+            loadBuilder
                 .setMessage(loadTxt) //设置提示文字
                 .setCancelable(false) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
@@ -226,6 +228,10 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
             dialog = loadBuilder.create()
         }
 
+        if (loadTxt != "加载中...") {
+            loadBuilder.setMessage(loadTxt)
+            dialog = loadBuilder.create()
+        }
         dialog?.show()
 
     }
