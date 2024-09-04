@@ -29,11 +29,11 @@ import com.github.yuang.kt.android_mvvm.enmus.BaseViewStatus
 import com.github.yuang.kt.android_mvvm.ext.click
 import com.github.yuang.kt.android_mvvm.ext.initImmersionBar
 import com.github.yuang.kt.android_mvvm.ext.showToast
-import com.github.yuang.kt.android_mvvm.ext.startActivity
 import com.github.yuang.kt.android_mvvm.interfaces.IBaseUIView
 import com.github.yuang.kt.android_mvvm.utils.AmapLocationUtils
 import com.github.yuang.kt.android_mvvm.utils.AppManager
-import com.github.yuang.kt.android_mvvm.utils.DataStoreHelper
+import com.gyf.immersionbar.BarHide
+import com.gyf.immersionbar.ImmersionBar
 import com.jakewharton.rxbinding4.view.clicks
 import com.yk.loading.LoadingDialog
 import me.jessyan.autosize.internal.CustomAdapt
@@ -185,7 +185,6 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         lottieLoadingView?.pauseAnimation()
         lottieErrorView?.pauseAnimation()
     }
-
 
     private fun init(savedInstanceState: Bundle?) {
         baseBinding = ActivityBaseBinding.inflate(layoutInflater)
@@ -354,19 +353,18 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
      * 网络请求加载的中间弹窗
      */
     override fun showLoadingDialog(loadTxt: String?) {
-        var loadBuilder: LoadingDialog.Builder? = null
+        val loadBuilder: LoadingDialog.Builder = LoadingDialog.Builder(this)
         if (dialog == null) {
-            loadBuilder = LoadingDialog.Builder(mContext)
+            loadBuilder
                 .setMessage(loadTxt ?: "加载中...") //设置提示文字
                 .setCancelable(false) //按返回键取消
                 .setMessageColor(Color.WHITE) //提示文字颜色
                 .setMessageSize(14) //提示文字字号
                 .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
                 .setCancelOutside(false) //点击空白区域弹消失
-
             dialog = loadBuilder.create()
         }
-        loadBuilder?.setMessage(loadTxt)
+        loadBuilder.setMessage(loadTxt)
         dialog?.show()
 
     }
@@ -413,5 +411,6 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         }
         dialog?.dismiss()
     }
+
 }
 

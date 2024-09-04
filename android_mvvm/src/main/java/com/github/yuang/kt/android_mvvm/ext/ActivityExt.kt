@@ -18,6 +18,7 @@ import com.gyf.immersionbar.ImmersionBar
  * @website https://github.com/AnglePengCoding
  */
 
+
 fun AppCompatActivity.initImmersionBar(
     activity: AppCompatActivity,
     statusBarView: View,
@@ -27,11 +28,12 @@ fun AppCompatActivity.initImmersionBar(
         transparentBar()
         statusBarDarkFont(isDarkFont)
         statusBarView(statusBarView)
+        fitsSystemWindows(true)
+        keyboardEnable(true)
         hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
         init()
     }
 }
-
 
 /**
  * 软键盘的隐藏

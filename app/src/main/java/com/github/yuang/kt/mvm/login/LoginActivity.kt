@@ -17,6 +17,12 @@ class LoginActivity : BaseActivity() {
         return binding
     }
 
+
+    override fun isToolbarVisibility(): Boolean {
+        setTitleName("农产品抽样")
+        return true
+    }
+
     override fun getBundleExtras(extras: Bundle?) {
     }
 

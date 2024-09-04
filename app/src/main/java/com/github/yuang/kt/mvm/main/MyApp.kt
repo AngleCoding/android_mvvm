@@ -19,8 +19,8 @@ class MyApp : BaseApp() {
         super.onCreate()
     }
 
-    override fun getLoginActivity(): AppCompatActivity {
-        return LoginActivity()
+    override fun getLoginActivity(): AppCompatActivity? {
+        return null
     }
 
 }

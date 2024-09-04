@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainViewModel.refreshData.vmObserverLoading(this, onSuccess = {
+        mainViewModel.refreshData.vmObserverLoading(this, "提交中...",onSuccess = {
 
         })
 
@@ -39,6 +39,12 @@ class MainActivity : BaseActivity() {
 
         mainBinding.mBtLogin.click {
             mainViewModel.login()
+            mainViewModel.login()
+            mainViewModel.login()
+            mainViewModel.login()
+            mainViewModel.login()
+
+
         }
     }
 
