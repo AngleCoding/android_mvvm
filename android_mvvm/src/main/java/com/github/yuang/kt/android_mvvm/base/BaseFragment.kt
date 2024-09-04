@@ -215,14 +215,28 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         baseFragmentBaseBinding.vsError.visibility = View.GONE
         baseFragmentBaseBinding.vsLoading.visibility = View.GONE
 
-        val loadBuilder: LoadingDialog.Builder = LoadingDialog.Builder(mContext)
-            .setMessage(loadTxt) //设置提示文字
-            .setCancelable(false) //按返回键取消
-            .setMessageColor(Color.WHITE) //提示文字颜色
-            .setMessageSize(14) //提示文字字号
-            .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
-            .setCancelOutside(false) //点击空白区域弹消失
-        dialog = loadBuilder.create()
+        loadTxt?.let {
+            if (!it.contains("加载中")){
+                dialog?.run {
+                    if (isShowing) {
+                        dismiss()
+                        dialog = null
+                    }
+                }
+            }
+        }
+
+        if (dialog==null){
+            val loadBuilder: LoadingDialog.Builder = LoadingDialog.Builder(mContext)
+                .setMessage(loadTxt) //设置提示文字
+                .setCancelable(false) //按返回键取消
+                .setMessageColor(Color.WHITE) //提示文字颜色
+                .setMessageSize(14) //提示文字字号
+                .setBackgroundTransparent(false) //弹窗背景色是透明或半透明
+                .setCancelOutside(false) //点击空白区域弹消失
+            dialog = loadBuilder.create()
+        }
+
         dialog?.show()
 
     }

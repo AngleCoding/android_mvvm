@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainViewModel.refreshData.vmObserverLoading(this, "提交中...",onSuccess = {
+        mainViewModel.refreshData.vmObserverLoading(this, "测试中", onSuccess = {
 
         })
 
