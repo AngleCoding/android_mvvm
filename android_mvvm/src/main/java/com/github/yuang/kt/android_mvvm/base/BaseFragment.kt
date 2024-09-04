@@ -215,17 +215,6 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
         baseFragmentBaseBinding.vsError.visibility = View.GONE
         baseFragmentBaseBinding.vsLoading.visibility = View.GONE
 
-        loadTxt?.let {
-            if (!it.contains("加载中")){
-                dialog?.run {
-                    if (isShowing) {
-                        dismiss()
-                        dialog = null
-                    }
-                }
-            }
-        }
-
         if (dialog==null){
             val loadBuilder: LoadingDialog.Builder = LoadingDialog.Builder(mContext)
                 .setMessage(loadTxt) //设置提示文字
@@ -270,6 +259,17 @@ abstract class BaseFragment : Fragment(), IBaseUIView {
             }
         }
 
-        dialog?.dismiss()
+        dialog?.let {
+            it.dismiss()
+            dialog == null
+        }
+    }
+
+    override fun onDestroy() {
+        dialog?.let {
+            it.dismiss()
+            dialog == null
+        }
+        super.onDestroy()
     }
 }

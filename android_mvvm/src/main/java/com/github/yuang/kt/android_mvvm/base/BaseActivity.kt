@@ -332,6 +332,10 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         if (this::class.simpleName.equals("MainActivity")) {
             AmapLocationUtils.getInstance().destroyLocation()
         }
+        dialog?.let {
+            it.dismiss()
+            dialog == null
+        }
         super.onDestroy()
     }
 
@@ -353,17 +357,7 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
      * 网络请求加载的中间弹窗
      */
     override fun showLoadingDialog(loadTxt: String?) {
-        loadTxt?.let {
-            if (!it.contains("加载中")){
-                dialog?.run {
-                    if (isShowing) {
-                        dismiss()
-                        dialog = null
-                    }
-                }
-            }
-        }
-        if (dialog==null){
+        if (dialog == null) {
             val loadBuilder: LoadingDialog.Builder = LoadingDialog.Builder(mContext)
                 .setMessage(loadTxt) //设置提示文字
                 .setCancelable(false) //按返回键取消
@@ -417,7 +411,10 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
                 baseBinding.vsLoading.visibility = View.GONE
             }
         }
-        dialog?.dismiss()
+        dialog?.let {
+            it.dismiss()
+            dialog == null
+        }
     }
 
 }
