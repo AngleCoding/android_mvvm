@@ -91,7 +91,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
 @MainThread
 inline fun <T> VmLiveData<T>.vmObserverLoading(
     activity: BaseActivity,
-    loadTxt: String = "加载中...",
+    loadTxt: String? = "加载中...",
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(activity) {
@@ -187,7 +187,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
 inline fun <T> VmLiveData<T>.vmObserverLoading(
     fragment: BaseFragment,
     tips: Boolean? = true,
-    loadTxt: String = "加载中...",
+    loadTxt: String? = "加载中...",
     crossinline onSuccess: ((T) -> Unit)
 ) {
     observe(fragment) {

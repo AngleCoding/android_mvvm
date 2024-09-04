@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Mvm"
         tools:targetApi="31">
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:theme="@style/Theme.Mvm.NoActionBar">
@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity android:name="com.github.yuang.kt.mvm.login.LoginActivity" />-->
+        <activity android:name="com.github.yuang.kt.mvm.login.LoginActivity" />
     </application>
 
 </manifest>
