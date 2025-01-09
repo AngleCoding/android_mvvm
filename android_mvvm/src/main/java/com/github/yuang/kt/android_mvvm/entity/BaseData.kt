@@ -7,7 +7,7 @@ package com.github.yuang.kt.android_mvvm.entity
  */
 class BaseData<T>(
     private var msg: String = "查询成功",
-    var result: T,
+    var data: T,
     var code: String = "200"
 ) {
 

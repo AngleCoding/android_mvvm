@@ -39,7 +39,7 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
         if (it is VmState.Loading) {
             activity.setBaseViewStatus(BaseViewStatus.LOADING, lottieLoadingUrl)
         } else if (it is VmState.Success) {
-            onSuccess(it.result)
+            onSuccess(it.data)
             activity.setBaseViewStatus(BaseViewStatus.SUCCESS, lottieLoadingUrl)
         } else if (it is VmState.Error) {
             activity.showToast(it.error.errorMsg)
@@ -69,7 +69,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
         if (it is VmState.Loading) {
         } else if (it is VmState.Success) {
             activity.setBaseViewStatus(BaseViewStatus.SUCCESS, null)
-            onSuccess(it.result)
+            onSuccess(it.data)
         } else if (it is VmState.Error) {
             activity.showToast(it.error.errorMsg)
             activity.showErrorLayout(it.error.errorMsg)
@@ -101,7 +101,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             }
 
             is VmState.Success -> {
-                onSuccess(it.result)
+                onSuccess(it.data)
                 activity.dismissLoadingDialog(BaseViewStatus.SUCCESS)
             }
 
@@ -133,7 +133,7 @@ inline fun <T> VmLiveData<T>.vmObserverMain(
         if (it is VmState.Loading) {
             fragment.setBaseViewStatus(BaseViewStatus.LOADING, lottieLoadingUrl)
         } else if (it is VmState.Success) {
-            onSuccess(it.result)
+            onSuccess(it.data)
             fragment.setBaseViewStatus(BaseViewStatus.SUCCESS, lottieLoadingUrl)
         } else if (it is VmState.Error) {
             fragment.requireContext().showToast(it.error.errorMsg)
@@ -164,7 +164,7 @@ inline fun <T> VmLiveData<T>.vmObserverDefault(
         if (it is VmState.Loading) {
         } else if (it is VmState.Success) {
             fragment.setBaseViewStatus(BaseViewStatus.SUCCESS, null)
-            onSuccess(it.result)
+            onSuccess(it.data)
         } else if (it is VmState.Error) {
             if (null != tips && tips) fragment.requireContext().showToast(it.error.errorMsg)
             fragment.showErrorLayout(it.error.errorMsg)
@@ -197,7 +197,7 @@ inline fun <T> VmLiveData<T>.vmObserverLoading(
             }
 
             is VmState.Success -> {
-                onSuccess(it.result)
+                onSuccess(it.data)
                 fragment.dismissLoadingDialog(BaseViewStatus.SUCCESS)
             }
 

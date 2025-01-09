@@ -9,8 +9,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 /**
  * @author AnglePenCoding
@@ -82,5 +90,45 @@ inline fun <reified T : Service> Context?.startSerview() =
     this?.startService(Intent(this, T::class.java))
 
 
+
+/**
+ * 短信倒计时
+ *
+ *         countDown(start = {
+ *             binding.mBtLO.isEnabled = false
+ *         }, end = {
+ *             binding.mBtLO.isEnabled = true
+ *         }, next = { time ->
+ *             binding.mBtLO.text = time.toString()
+ *         }, error = { msg ->
+ *             binding.mBtLO.text = msg
+ *         })
+ *
+ */
+fun AppCompatActivity.countDown(
+    timeMillis: Long = 1000,//默认时间间隔 1 秒
+    time: Int = 60,//默认时间为 3 秒
+    start: (scop: CoroutineScope) -> Unit,
+    end: () -> Unit,
+    next: (time: Int) -> Unit,
+    error: (msg: String?) -> Unit
+) {
+    lifecycleScope.launch {
+        flow {
+            (time downTo 0).forEach {
+                delay(timeMillis)
+                emit(it)
+            }
+        }.onStart {
+            start(this@launch)
+        }.onCompletion {
+            end()
+        }.catch {
+            error(it.message ?: "出现未知错误")
+        }.collect {
+            next(it)
+        }
+    }
+}
 
 

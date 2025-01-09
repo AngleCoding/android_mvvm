@@ -20,7 +20,7 @@ class VmResult<T> {
 
 sealed class VmState<out T> {
     object Loading : VmState<Nothing>()
-    data class Success<out T>(val result: T) : VmState<T>()
+    data class Success<out T>(val data: T) : VmState<T>()
     data class Error(val error: AppException) : VmState<Nothing>()
     data class TokenFailure(val msg: String) : VmState<Nothing>()
     data class FailToast(val msg: String) : VmState<Nothing>()
