@@ -18,10 +18,10 @@ import com.github.yuang.kt.android_mvvm.exception.TokenFailureException
  * @param result 请求结果
  */
 fun <T> VmLiveData<T>.paresVmResult(result: BaseData<T>) {
-    if (result.code == "200") {
+    if (result.code == "00000") {
         value = VmState.Success(result.data)
         Log.e("VmLiveData", "Success")
-    } else if (result.code == "401") {
+    } else if (result.code == "A00008") {
         value = VmState.TokenFailure(result.getMsg())
         Log.e("VmLiveData", "TokenFailure")
     } else {
