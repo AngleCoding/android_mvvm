@@ -24,7 +24,14 @@ fun <T> VmLiveData<T>.paresVmResult(result: BaseData<T>) {
     } else if (result.code == "A00008") {
         value = VmState.TokenFailure(result.getMsg())
         Log.e("VmLiveData", "TokenFailure")
-    } else {
+    }else if (result.code == "A00004") {
+        value = VmState.TokenFailure(result.getMsg())
+        Log.e("VmLiveData", "TokenFailure")
+    }else if (result.code == "A00009") {
+        value = VmState.TokenFailure(result.getMsg())
+        Log.e("VmLiveData", "TokenFailure")
+    }
+    else {
         value = VmState.FailToast(result.getMsg())
         Log.e("VmLiveData", "else")
     }
