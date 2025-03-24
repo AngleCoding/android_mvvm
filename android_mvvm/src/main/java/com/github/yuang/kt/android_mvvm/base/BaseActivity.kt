@@ -196,7 +196,6 @@ abstract class BaseActivity : AppCompatActivity(), CustomAdapt, ViewModelProvide
         initData()
         initViewModel()
         setListeners()
-        initPermission()
     }
 
 

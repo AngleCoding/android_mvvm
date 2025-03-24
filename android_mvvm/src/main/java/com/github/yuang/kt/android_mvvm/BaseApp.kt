@@ -56,7 +56,7 @@ abstract class BaseApp : Application() {
         instance = this
         mContext = this
         initAutoSize()
-        initLocation()
+//        initLocation()
         initRxHttp()
     }
 
